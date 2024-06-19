@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="site__body">
+    <div class="block order-success">
+        <div class="container">
+            <div class="order-success__body">
+                <div class="order-success__header">
+                    <svg class="order-success__icon" width="100" height="100">
+                        <use xlink:href="/static/images/sprite.svg#check-100"></use>
+                    </svg>
+                    <h1 class="order-success__title">Спасибо</h1>
+                    <div class="order-success__subtitle">Ваш заказ был успешно создан!</div>
+                    <div class="order-success__actions">
+                        <a href="{% url 'shop:homepage' %}" class="btn btn-xs btn-secondary">Вернуться на главную</a>
+                        <a href="{% url 'order:history' %}" class="btn btn-xs btn-secondary">Мои заказы</a>
+                    </div>
+                    <div class="order-success__actions">
+                        <a href="{% url 'order:pdf_file' order.id %}" class="btn btn-xs btn-secondary">Бланк заказа</a>
+                        <a href="{% url 'order:send_email' order.id %}" class="btn btn-xs btn-secondary">Отправить на почту</a>
+                    </div>
+                </div>
+                <div class="order-success__meta">
+                    <ul class="order-success__meta-list">
+                        <li class="order-success__meta-item">
+                            <span class="order-success__meta-title">Номер заказа:</span>
+                            <span class="order-success__meta-value">#{{ order.id }}</span>
+                        </li>
+                        <li class="order-success__meta-item">
+                            <span class="order-success__meta-title">Создан:</span>
+                            <span class="order-success__meta-value">{{ order.created_at|date:"d.m.Y H:i" }}</span>
+                        </li>
+                        <li class="order-success__meta-item">
+                            <span class="order-success__meta-title">Итого:</span>
+                            <span class="order-success__meta-value">{{ order.total_price }} руб.</span>
+                        </li>
+                        <li class="order-success__meta-item">
+                            <span class="order-success__meta-title">Способ оплаты:</span>
+                            <span class="order-success__meta-value">Оплата в магазине</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="order-list">
+                        <table>
+                            <thead class="order-list__header">
+                                <tr>
+                                    <th class="order-list__column-label" colspan="2">Наименование товара</th>
+                                    <th class="order-list__column-quantity">Количество</th>
+                                    <th class="order-list__column-total">Итого, руб.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="order-list__products">
+                                {% for order_item in order_items %}
+                                <tr>
+                                    <td class="order-list__column-image">
+                                        <div class="product-image">
+                                            {% with order_item.product.images.first as first_image %}
+                                                {% if first_image %}
+                                                    <a href="{{ order_item.product.get_absolute_url }}" class="product-image__body">
+                                                        <img class="product-image__img" src="{{ first_image.image.url }}" alt="">
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ order_item.product.get_absolute_url }}" class="product-image__body">
+                                                        <img class="product-image__img" src="/static/images/image-holder.webp" alt="">
+                                                    </a>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </div>
+                                    </td>
+                                    <td class="order-list__column-product">
+                                        <a href="{{ order_item.product.get_absolute_url }}">{{ order_item.product.title }}</a>
+                                        <div class="order-list__options">
+                                            <ul class="order-list__options-list">
+                                                <li class="order-list__options-item">
+                                                    <span class="order-list__options-label">Артикул:</span>
+                                                    <span class="order-list__options-value">{{ order_item.product.article }}</span>
+                                                </li>
+                                                <li class="order-list__options-item">
+                                                    <span class="order-list__options-label">Производитель:</span>
+                                                    <span class="order-list__options-value">{{ order_item.product.brand }}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td class="order-list__column-quantity" data-title="Количество:">{{ order_item.quantity }}</td>
+                                    <td class="order-list__column-total">{{ order_item.total_price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="order-list__footer">
+                                <tr>
+                                    <th class="order-list__column-label" colspan="3">Итого</th>
+                                    <td class="order-list__column-total">{{ order.total_price }}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

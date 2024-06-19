@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>Автозапчасти ГАРАЖ</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
+    <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/vendor/owl-carousel/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="/static/vendor/photoswipe/photoswipe.css">
+    <link rel="stylesheet" href="/static/vendor/photoswipe/default-skin/default-skin.css">
+    <link rel="stylesheet" href="/static/vendor/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/static/fonts/stroyka/stroyka.css">
+
+    <link rel="icon" href="/static/favicons/favicon.ico">
+    <link rel="icon" href="/static/favicons/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/static/favicons/apple.png">
+    <link rel="manifest" href="/static/favicons/site.webmanifest">
+
+  </head>
+  <body>
+    <div class="lock"></div>
+  <div class="message">
+    <h1>Неверный токен запроса</h1>
+  </div>
+  {% if messages %}
+    <div>
+        {% for message in messages %}
+        <div class="alert {{ message.tags }} text-center alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong>
+        </div>
+        {% endfor %}
+    </div>
+  {% endif %}
+  </body>
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/vendor/owl-carousel/owl.carousel.min.js"></script>
+  <script src="/static/vendor/nouislider/nouislider.min.js"></script>
+  <script src="/static/vendor/photoswipe/photoswipe.min.js"></script>
+  <script src="/static/vendor/photoswipe/photoswipe-ui-default.min.js"></script>
+  <script src="/static/vendor/select2/js/select2.min.js"></script>
+  <script src="/static/js/number.js"></script>
+  <script src="/static/js/main.js"></script>
+  <script src="/static/js/header.js"></script>
+  <script src="/static/vendor/svg4everybody/svg4everybody.min.js"></script>
+  <script>
+      svg4everybody();
+  </script>
+</html>

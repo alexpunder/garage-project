@@ -1,0 +1,50 @@
+{% load static %}
+
+<div class="block-products-carousel__column">
+  <div class="block-products-carousel__cell">
+    <div class="product-card product-card--hidden-actions ">
+      <div class="product-card__info">
+        {% with product.images.first as first_image %}
+          {% if first_image %}
+            <div class="product-card__image product-image">
+              <a href="{{ product.get_absolute_url }}" class="product-image__body" aria-label="Изображение товара, перейти на страницу товара">
+                <img class="product-image__img img-fluid" src="{{ first_image.image.url }}">
+              </a>
+            </div>
+          {% else %}
+            <div class="product-card__image product-image">
+                <a href="{{ product.get_absolute_url }}" class="product-image__body" aria-label="Изображение отсутствует, перейти на страницу товара">
+                    <img class="product-image__img" src="{% static 'images/image-holder.webp' %}" alt="">
+                </a>
+            </div>
+          {% endif %}
+        {% endwith %}
+          <div class="product-card__actions">
+            <div class="product-card__name">
+                <a href="{{ product.get_absolute_url }}"><strong>{{ product.title }}</strong></a>
+            </div>
+            <div class="product-card__prices">
+              Цена: {{ product.price }} руб.
+            </div>
+            <ul class="product__meta">
+              <li>
+                <a href="{{ product.category.get_absolute_url }}">{{ product.category.title }}</a>,
+                <a href="{{ product.subcategory.get_absolute_url }}">{{ product.subcategory.title|lower }}</a>
+              </li>
+              <li>Производитель: <a href="{{ product.brand.get_absolute_url }}">{{ product.brand.title }}</a></li>
+              <li>Артикул: <a href="{{ product.get_absolute_url }}">{{ product.article }}</a></li>
+              <li>Доступно в наличии: {{ product.quantity }}</li>
+            </ul>
+        </div>
+      </div>
+      <div class="product-card__actions">
+        <div class="product-card__buttons">
+          <form class="product__options" method="POST" action="{% url 'cart:cart_add' product.pk %}">
+            {% csrf_token %}
+            <input class="btn btn-primary product-card__addtocart" type="submit" value="Добавить в корзину">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

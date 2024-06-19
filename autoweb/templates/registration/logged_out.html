@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 d-flex flex-column">
+                <div class="card flex-grow-1 mb-md-0">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                      <h3 class="card-title">Вы вышли из системы!</h3>
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <p class="mx-auto"><a href="{% url 'auth:login' %}" class="btn btn-primary mb-2">Войти снова</a></p>
+                        <p class="mx-auto"><a href="{% url 'shop:homepage' %}" class="btn btn-primary">На главную</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

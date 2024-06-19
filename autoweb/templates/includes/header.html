@@ -1,0 +1,834 @@
+{% load static %}
+
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+
+<style>
+    .site-header__phone-number a {
+        color: black;
+        text-decoration: none;
+    }
+
+    .site-header__phone-number a:hover {
+        color: blue;
+    }
+</style>
+
+<header class="site__header d-lg-none">
+  <!-- data-sticky-mode - one of [pullToShow, alwaysOnTop] -->
+  <div class="mobile-header mobile-header--sticky" data-sticky-mode="pullToShow">
+      <div class="mobile-header__panel">
+            <div class="container">
+              <div class="mobile-header__body">
+                  <button class="mobile-header__menu-button" aria-label="Открыть меню">
+                      <svg width="18px" height="14px">
+                          <use xlink:href="/static/images/sprite.svg#menu-18x14"></use>
+                      </svg>
+                  </button>
+                  <a class="mobile-header__logo" href="{% url 'shop:homepage' %}" aria-label="Вернуться на главную страницу">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="200px" height="40px">
+                        <image href="/static/images/logo-header-mobile.webp" width="100%" height="100%" />
+                      </svg>
+                  </a>
+                  <div class="search search--location--mobile-header mobile-header__search">
+                    <div class="search__body">
+                        <form class="search__form" action="{% url 'shop:search' %}" method='GET'>
+                            <input class="search__input" name="search" placeholder="Введите для поиска" aria-label="Поиск по сайту" type="text" autocomplete="on">
+                            <button class="search__button search__button--type--submit" type="submit" aria-label="Поиск по сайту">
+                                <svg width="20px" height="20px">
+                                    <use xlink:href="/static/images/sprite.svg#search-20"></use>
+                                </svg>
+                            </button>
+                            <div class="search__border"></div>
+                        </form>
+                    </div>
+                  </div>
+                  <div class="mobile-header__indicators">
+                    <div class="indicator indicator--mobile-search indicator--mobile d-md-none">
+                        <button class="indicator__button" aria-label="Найти">
+                            <span class="indicator__area">
+                                <svg width="20px" height="20px">
+                                    <use xlink:href="/static/images/sprite.svg#search-20"></use>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                  <div class="indicator indicator--mobile">
+                    <a href="{% url 'cart:cart' %}" class="indicator__button" aria-label="Корзина покупок">
+                        <span class="indicator__area">
+                            <svg width="20px" height="20px">
+                                <use xlink:href="/static/images/sprite.svg#cart-20"></use>
+                            </svg>
+                            {% if user.is_authenticated %}
+                              <span class="indicator__value">{{ cart.count }}</span>
+                            {% endif %}
+                        </span>
+                    </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</header>
+<!-- mobile site__header / end -->
+<!-- desktop site__header -->
+{% with request.resolver_match.view_name as view_name %}
+<header class="site__header d-lg-block d-none">
+  <div class="site-header">
+    <div class="site-header__middle container">
+      <div class="site-header__logo">
+          <a href="{% url 'shop:homepage' %}" aria-label="На главную страницу">
+              <svg xmlns="http://www.w3.org/2000/svg">
+                <image href="/static/images/logo-header-desktop.svg" width="95%" height="100%" />
+              </svg>
+          </a>
+      </div>
+      <div class="site-header__search">
+          <div class="search search--location--header ">
+              <div class="search__body">
+                  <form class="search__form" action="{% url 'shop:search' %}" method="GET">
+                      <input class="search__input" name="search" placeholder="Введите для поиска" aria-label="Поиск по сайту" type="text" autocomplete="on">
+                      <button class="search__button search__button--type--submit" type="submit" aria-label="Поиск по сайту">
+                          <svg width="20px" height="20px">
+                              <use xlink:href="/static/images/sprite.svg#search-20"></use>
+                          </svg>
+                      </button>
+                      <div class="search__border"></div>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <div class="site-header__phone">
+          <div class="site-header__phone-number">
+            <a href="tel:+79270669900">8 (927) 066-99-00</a>
+          </div>
+          <div class="social-links widget-aboutus__socials social-links--shape--rounded">
+            <ul class="social-links__list">
+                <li class="social-links__item">
+                    <a class="social-links__link" href="https://t.me/+79270669900" aria-label="Написать в Telegram" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                </li>
+                <li class="social-links__item">
+                    <a class="social-links__link" href="https://wa.me/+79270669900" aria-label="Написать в Whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </li>
+                <li class="social-links__item">
+                    <a class="social-links__link" href="mailto:autovlz@yandex.ru" aria-label="Написать на почту" target="_blank">
+                        <i class="fas fa-envelope-square"></i>
+                    </a>
+                </li>
+            </ul>
+          </div>
+      </div>
+    </div>
+    <div class="site-header__nav-panel">
+        <!-- data-sticky-mode - one of [pullToShow, alwaysOnTop] -->
+        <div class="nav-panel nav-panel--sticky" data-sticky-mode="alwaysOnTop">
+            <div class="nav-panel__container container">
+                <div class="nav-panel__row">
+                    <div class="nav-panel__departments">
+                    {% if view_name == 'shop:homepage' %}
+                        <div class="departments  departments--open departments--fixed " data-departments-fixed-by=".block-slideshow">
+                    {% else %}
+                        <div class="departments" data-departments-fixed-by="">
+                    {% endif %}
+                            <div class="departments__body">
+                                <div class="departments__links-wrapper">
+                                    <div class="departments__submenus-container"></div>
+                                    <ul class="departments__links">
+                                      <li class="departments__item">
+                                        <a class="departments__item-link" href="{% url 'shop:all_products' %}">
+                                          Общий каталог
+                                        </a>
+                                      </li>
+                                      <li class="departments__item">
+                                        <a class="departments__item-link" href="{% url 'shop:categories_list' %}">
+                                          По разделам
+                                        </a>
+                                      </li>
+                                      <li class="departments__item">
+                                          <a class="departments__item-link" href="">
+                                              Технические жидкости
+                                              <svg class="departments__item-arrow" width="6px" height="9px">
+                                                  <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                                              </svg>
+                                          </a>
+                                          <div class="departments__submenu departments__submenu--type--megamenu departments__submenu--size--nl">
+                                              <div class="megamenu  megamenu--departments ">
+                                                  <div class="megamenu__body">
+                                                      <div class="row">
+                                                          <div class="col-6">
+                                                              <ul class="megamenu__links megamenu__links--level--0">
+                                                                  <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                                      <a href="{% url 'shop:subcategory_list' 'motornoe-maslo' %}">Моторное<br> масло</a>
+                                                                      <ul class="megamenu__links megamenu__links--level--1">
+                                                                          <li class="megamenu__item"><a href="{% url 'shop:product_list' 'motornoe-maslo' 'sinteticheskoe' %}">Синтетическое</a></li>
+                                                                          <li class="megamenu__item"><a href="{% url 'shop:product_list' 'motornoe-maslo' 'polusinteticheskoe' %}">Полусинтетическое</a></li>
+                                                                          <li class="megamenu__item"><a href="{% url 'shop:product_list' 'motornoe-maslo' 'lodochnoe' %}">Лодочное</a></li>
+                                                                          <li class="megamenu__item"><a href="{% url 'shop:product_list' 'motornoe-maslo' '2-i-4-h-taktnoe' %}">2 и 4-х тактное</a></li>
+                                                                      </ul>
+                                                                  </li>
+                                                                  <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                                      <a href="{% url 'shop:subcategory_list' 'ohlazhdayushaya-zhidkost' %}">Охлаждающая жидкость</a>
+                                                                      <ul class="megamenu__links megamenu__links--level--1">
+                                                                      </ul>
+                                                                  </li>
+                                                              </ul>
+                                                          </div>
+                                                          <div class="col-6">
+                                                              <ul class="megamenu__links megamenu__links--level--0">
+                                                              <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                                  <a href="{% url 'shop:subcategory_list' 'transmissionnoe-maslo' %}">Трансмиссионное масло</a>
+                                                                  <ul class="megamenu__links megamenu__links--level--1">
+                                                                      <li class="megamenu__item"><a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'mkpp' %}">МКПП</a></li>
+                                                                      <li class="megamenu__item"><a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'akpp' %}">АКПП</a></li>
+                                                                      <li class="megamenu__item"><a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'variatornoe' %}">Вариатор</a></li>
+                                                                      <li class="megamenu__item"><a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'dsg-i-robot' %}">DSG и робот</a></li>
+                                                                  </ul>
+                                                              </li>
+                                                              <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                                  <a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'tormoznaya-zhidkost' %}">Тормозная жидкость</a>
+                                                                  <ul class="megamenu__links megamenu__links--level--1">
+                                                                  </ul>
+                                                              </li>
+                                                              </ul>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </li>
+                                      <li class="departments__item">
+                                          <a class="departments__item-link" href="{% url 'shop:subcategory_list' 'detali-to' %}">
+                                              Детали ТО
+                                              <svg class="departments__item-arrow" width="6px" height="9px">
+                                                  <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                                              </svg>
+                                          </a>
+                                          <div class="departments__submenu departments__submenu--type--megamenu departments__submenu--size--nl">
+                                              <div class="megamenu  megamenu--departments ">
+                                                  <div class="megamenu__body">
+                                                      <div class="row">
+                                                          <div class="col-6">
+                                                              <ul class="megamenu__links megamenu__links--level--0">
+                                                                  <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                                      <a href="{% url 'shop:subcategory_list' 'detali-to' %}">Фильтра</a>
+                                                                      <ul class="megamenu__links megamenu__links--level--1">
+                                                                      <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-to' 'maslyanye-filtra' %}">Масляные фильтра</a></li>
+                                                                      <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-to' 'vozdushnye-filtra' %}">Воздушные фильтра</a></li>
+                                                                      <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-to' 'salonnye-filtra' %}">Салонные фильтра</a></li>
+                                                                      <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-to' 'toplivnye-filtra' %}">Топливные фильтра</a></li>
+                                                                      <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-to' 'filtry-kpp' %}">Фильтры КПП</a></li>
+                                                                      </ul>
+                                                                  </li>
+                                                                  <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                                      <a href="{% url 'shop:subcategory_list' 'detali-dvigatelya' %}">Детали двигателя</a>
+                                                                      <ul class="megamenu__links megamenu__links--level--1">
+                                                                        <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-dvigatelya' 'komplekty-grm' %}">Комплекты ГРМ</a></li>
+                                                                        <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-dvigatelya' 'vodyanye-nasosy-pompy' %}">Водяные насосы</a></li>
+                                                                        <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-dvigatelya' 'roliki-i-natyazhiteli' %}">Ролики и натяжители</a></li>
+                                                                        <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-dvigatelya' 'remni' %}">Поликлиновые ремни</a></li>
+                                                                        <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-dvigatelya' 'opory-dvigatelya' %}">Опоры двигателя</a></li>
+                                                                        <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-dvigatelya' 'prokladki' %}">Прокладки</a></li>
+                                                                      </ul>
+                                                                  </li>
+                                                              </ul>
+                                                          </div>
+                                                          <div class="col-6">
+                                                              <ul class="megamenu__links megamenu__links--level--0">
+                                                                  <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                                      <a href="{% url 'shop:subcategory_list' 'tormoznaya-sistema' %}">Тормозная система</a>
+                                                                      <ul class="megamenu__links megamenu__links--level--1">
+                                                                          <li class="megamenu__item"><a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'perednie-kolodki' %}">Передние колодки</a></li>
+                                                                          <li class="megamenu__item"><a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'zadnie-kolodki' %}">Задние колодки</a></li>
+                                                                          <li class="megamenu__item"><a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'barabannye-kolodki' %}">Барабанные колодки</a></li>
+                                                                          <li class="megamenu__item"><a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'tormoznye-diski' %}">Тормозные диски</a></li>
+                                                                      </ul>
+                                                                  </li>
+                                                              </ul>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </li>
+                                      <li class="departments__item">
+                                        <a class="departments__item-link" href="{% url 'shop:subcategory_list' 'podveska' %}">
+                                            Подвеска
+                                            <svg class="departments__item-arrow" width="6px" height="9px">
+                                                <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                                            </svg>
+                                        </a>
+                                        <div class="departments__submenu departments__submenu--type--menu">
+                                            <div class="menu menu--layout--classic ">
+                                                <div class="menu__submenus-container"></div>
+                                                <ul class="menu__list">
+                                                  <li class="menu__item">
+                                                    <div class="menu__item-submenu-offset"></div>
+                                                    <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'amortizatori' %}">
+                                                      Амортизаторы
+                                                    </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                    <div class="menu__item-submenu-offset"></div>
+                                                    <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'opory-amortizatora' %}">
+                                                      Опоры амортизатора
+                                                    </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                    <div class="menu__item-submenu-offset"></div>
+                                                    <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'pylniki-i-otbojniki' %}">
+                                                      Пыльники и отбойники
+                                                    </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'sajlentbloki' %}">
+                                                        Сайлентблоки
+                                                      </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'tyagi-strabilizatora' %}">
+                                                          Тяги стабилизатора
+                                                      </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'sharovye-opory' %}">
+                                                        Шаровые опоры
+                                                      </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'rulevye-nakonechniki' %}">
+                                                        Рулевые наконечники
+                                                      </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'rulevye-tyagi' %}">
+                                                        Рулевые тяги
+                                                      </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'rychagi-podveski' %}">
+                                                        Рычаги подвески
+                                                      </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'stupicy-i-podshipniki' %}">
+                                                        Ступицы и подшипники
+                                                      </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'vtulki-stabilizatora' %}">
+                                                        Втулки стабилизатора
+                                                      </a>
+                                                  </li>
+                                                  <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'podveska' 'pruzhiny' %}">
+                                                        Пружины
+                                                      </a>
+                                                  </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                      </li>
+                                      <li class="departments__item">
+                                        <a class="departments__item-link" href="{% url 'shop:subcategory_list' 'elektrooborudovanie' %}">
+                                            Электрооборудование
+                                            <svg class="departments__item-arrow" width="6px" height="9px">
+                                                <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                                            </svg>
+                                        </a>
+                                        <div class="departments__submenu departments__submenu--type--menu">
+                                            <div class="menu menu--layout--classic ">
+                                                <div class="menu__submenus-container"></div>
+                                                <ul class="menu__list">
+                                                <li class="menu__item">
+                                                        <div class="menu__item-submenu-offset"></div>
+                                                        <a class="menu__item-link" href="{% url 'shop:product_list' 'elektrooborudovanie' 'svechi-zazhiganiya' %}">
+                                                            Свечи зажигания
+                                                        </a>
+                                                    </li>
+                                                    <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'elektrooborudovanie' 'katushki' %}">
+                                                          Катушки
+                                                      </a>
+                                                    </li>
+                                                    <li class="menu__item">
+                                                        <div class="menu__item-submenu-offset"></div>
+                                                        <a class="menu__item-link" href="{% url 'shop:product_list' 'elektrooborudovanie' 'provoda' %}">
+                                                            Провода
+                                                        </a>
+                                                    </li>
+                                                    <li class="menu__item">
+                                                        <div class="menu__item-submenu-offset"></div>
+                                                        <a class="menu__item-link" href="{% url 'shop:product_list' 'elektrooborudovanie' 'datchiki' %}">
+                                                            Датчики
+                                                        </a>
+                                                    </li>
+                                                    <li class="menu__item">
+                                                        <div class="menu__item-submenu-offset"></div>
+                                                        <a class="menu__item-link" href="{% url 'shop:product_list' 'elektrooborudovanie' 'benzonasosy' %}">
+                                                            Бензонасосы
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                      </li>
+                                      <li class="departments__item">
+                                          <a class="departments__item-link" href="{% url 'shop:subcategory_list' 'stekloochistiteli' %}">
+                                              Стеклоочистители
+                                              <svg class="departments__item-arrow" width="6px" height="9px">
+                                                  <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                                              </svg>
+                                          </a>
+                                          <div class="departments__submenu departments__submenu--type--menu">
+                                              <div class="menu menu--layout--classic ">
+                                                  <div class="menu__submenus-container"></div>
+                                                    <ul class="menu__list">
+                                                      <li class="menu__item">
+                                                          <div class="menu__item-submenu-offset"></div>
+                                                          <a class="menu__item-link" href="{% url 'shop:product_list' 'stekloochistiteli' 'karkasnye' %}">
+                                                              Каркасные
+                                                          </a>
+                                                      </li>
+                                                      <li class="menu__item">
+                                                        <div class="menu__item-submenu-offset"></div>
+                                                        <a class="menu__item-link" href="{% url 'shop:product_list' 'stekloochistiteli' 'beskarkasnye' %}">
+                                                            Бескаркасные
+                                                        </a>
+                                                      </li>
+                                                      <li class="menu__item">
+                                                          <div class="menu__item-submenu-offset"></div>
+                                                          <a class="menu__item-link" href="{% url 'shop:product_list' 'stekloochistiteli' 'ressornye' %}">
+                                                              Рессорные
+                                                          </a>
+                                                      </li>
+                                                      <li class="menu__item">
+                                                          <div class="menu__item-submenu-offset"></div>
+                                                          <a class="menu__item-link" href="{% url 'shop:product_list' 'stekloochistiteli' 'gibridnye' %}">
+                                                              Гибридные
+                                                          </a>
+                                                      </li>
+                                                      <li class="menu__item">
+                                                        <div class="menu__item-submenu-offset"></div>
+                                                        <a class="menu__item-link" href="{% url 'shop:product_list' 'stekloochistiteli' 'adaptery' %}">
+                                                          Адаптеры
+                                                        </a>
+                                                      </li>
+                                                  </ul>
+                                              </div>
+                                          </div>
+                                      </li>
+                                      <li class="departments__item">
+                                        <a class="departments__item-link" href="{% url 'shop:product_list' 'elektrooborudovanie' 'lampy' %}">
+                                          Автолампы
+                                        </a>
+                                      </li>
+                                      <li class="departments__item">
+                                        <a class="departments__item-link" href="{% url 'shop:subcategory_list' 'prochee' %}">
+                                            Прочее
+                                            <svg class="departments__item-arrow" width="6px" height="9px">
+                                                <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                                            </svg>
+                                        </a>
+                                        <div class="departments__submenu departments__submenu--type--menu">
+                                            <div class="menu menu--layout--classic ">
+                                                <div class="menu__submenus-container"></div>
+                                                  <ul class="menu__list">
+                                                    <li class="menu__item">
+                                                        <div class="menu__item-submenu-offset"></div>
+                                                        <a class="menu__item-link" href="{% url 'shop:product_list' 'prochee' 'smazka' %}">
+                                                          Смазка
+                                                        </a>
+                                                    </li>
+                                                    <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'prochee' 'klipsy' %}">
+                                                        Клипсы
+                                                      </a>
+                                                    </li>
+                                                    <li class="menu__item">
+                                                        <div class="menu__item-submenu-offset"></div>
+                                                        <a class="menu__item-link" href="{% url 'shop:product_list' 'prochee' 'avtokompressory' %}">
+                                                          Автокомпрессоры
+                                                        </a>
+                                                    </li>
+                                                    <li class="menu__item">
+                                                        <div class="menu__item-submenu-offset"></div>
+                                                        <a class="menu__item-link" href="{% url 'shop:product_list' 'prochee' 'voda' %}">
+                                                          Вода
+                                                        </a>
+                                                    </li>
+                                                    <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'prochee' 'homuty' %}">
+                                                        Хомуты
+                                                      </a>
+                                                    </li>
+                                                    <li class="menu__item">
+                                                      <div class="menu__item-submenu-offset"></div>
+                                                      <a class="menu__item-link" href="{% url 'shop:product_list' 'prochee' 'inoe' %}">
+                                                        Иное
+                                                      </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button class="departments__button" aria-label="Все категории">
+                                <svg class="departments__button-icon" width="18px" height="14px">
+                                    <use xlink:href="/static/images/sprite.svg#menu-18x14"></use>
+                                </svg>
+                                Все категории
+                            </button>
+                        </div>
+                    </div>
+                    <div class="nav-panel__nav-links nav-links">
+                        <ul class="nav-links__list">
+                            <li class="nav-links__item ">
+                                <a class="nav-links__item-link" href={% url 'shop:homepage' %} aria-label="На главную страницу">
+                                    <div class="nav-links__item-body">
+                                        Главная
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-links__item  nav-links__item--has-submenu ">
+                                <span class="nav-links__item-link" aria-label="Популярные категории товаров">
+                                    <div class="nav-links__item-body">
+                                        Популярное
+                                        <svg class="nav-links__item-arrow" width="9px" height="6px">
+                                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-9x6"></use>
+                                        </svg>
+                                    </div>
+                                </span>
+                                <div class="nav-links__submenu nav-links__submenu--type--megamenu nav-links__submenu--size--nl">
+                                    <div class="megamenu ">
+                                        <div class="megamenu__body">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <ul class="megamenu__links megamenu__links--level--0">
+                                                        <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                          <a href="{% url 'shop:subcategory_list' 'motornoe-maslo' %}">Моторное масло</a>
+                                                          <ul class="megamenu__links megamenu__links--level--1">
+                                                              <li class="megamenu__item"><a href="{% url 'shop:product_list' 'motornoe-maslo' 'sinteticheskoe' %}">Синтетическое</a></li>
+                                                              <li class="megamenu__item"><a href="{% url 'shop:product_list' 'motornoe-maslo' 'polusinteticheskoe' %}">Полусинтетическое</a></li>
+                                                              <li class="megamenu__item"><a href="{% url 'shop:product_list' 'motornoe-maslo' '2-i-4-h-taktnoe' %}">2 и 4-х тактное</a></li>
+                                                          </ul>
+                                                        </li>
+                                                        <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                            <a href="{% url 'shop:subcategory_list' 'transmissionnoe-maslo' %}">Трансмиссионное масло</a>
+                                                            <ul class="megamenu__links megamenu__links--level--1">
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'mkpp' %}">Механика</a></li>
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'akpp' %}">Автомат</a></li>
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'variatornoe' %}">Вариатор</a></li>
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'dsg-i-robot' %}">DSG и робот</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                                <div class="col-4">
+                                                    <ul class="megamenu__links megamenu__links--level--0">
+                                                        <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                            <a href="{% url 'shop:subcategory_list' 'detali-to' %}">Детали ТО</a>
+                                                            <ul class="megamenu__links megamenu__links--level--1">
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-to' 'maslyanye-filtra' %}">Масляные фильтра</a></li>
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-to' 'vozdushnye-filtra' %}">Воздушные фильтра</a></li>
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-to' 'salonnye-filtra' %}">Салонные фильтра</a></li>
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'detali-to' 'toplivnye-filtra' %}">Топливные фильтра</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                            <a href="{% url 'shop:subcategory_list' 'stekloochistiteli' %}">Стеклоочистители</a>
+                                                            <ul class="megamenu__links megamenu__links--level--1">
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'stekloochistiteli' 'karkasnye' %}">Каркасные</a></li>
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'stekloochistiteli' 'beskarkasnye' %}">Бескаркасные</a></li>
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'stekloochistiteli' 'ressornye' %}">Рессорные</a></li>
+                                                                <li class="megamenu__item"><a href="{% url 'shop:product_list' 'stekloochistiteli' 'gibridnye' %}">Гибридные</a></li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-4">
+                                                    <ul class="megamenu__links megamenu__links--level--0">
+                                                        <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                          <a>Прочие жидкости</a>
+                                                          <ul class="megamenu__links megamenu__links--level--1">
+                                                              <li class="megamenu__item"><a href="{% url 'shop:subcategory_list' 'ohlazhdayushaya-zhidkost' %}">Охлаждающая</a></li>
+                                                              <li class="megamenu__item"><a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'tormoznaya-zhidkost' %}">Тормозная</a></li>
+                                                          </ul>
+                                                        </li>
+                                                        <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                            <a href="{% url 'shop:product_list' 'elektrooborudovanie' 'svechi-zazhiganiya' %}">Свечи зажигания</a>
+                                                        </li>
+                                                        <li class="megamenu__item  megamenu__item--with-submenu ">
+                                                            <a href="{% url 'shop:product_list' 'elektrooborudovanie' 'lampy' %}">Автолампы</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-links__item  nav-links__item--has-submenu ">
+                            {% if user.is_authenticated %}
+                            <a class="nav-links__item-link" href="{% url 'account:profile' %}">
+                            {% else %}
+                            <a class="nav-links__item-link" href="{% url 'auth:registration' %}">
+                            {% endif %}
+                                <div class="nav-links__item-body">
+                                    Профиль
+                                    <svg class="nav-links__item-arrow" width="9px" height="6px">
+                                        <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-9x6"></use>
+                                    </svg>
+                                </div>
+                            </a>
+                            <div class="nav-links__submenu nav-links__submenu--type--menu">
+                                {% if not user.is_authenticated %}
+                                <div class="menu menu--layout--classic ">
+                                    <div class="menu__submenus-container"></div>
+                                    <ul class="menu__list">
+                                        <li class="menu__item">
+                                            <div class="menu__item-submenu-offset"></div>
+                                            <a class="menu__item-link" href="{% url 'auth:login' %}" aria-label="На страницу авторизации">
+                                                Войти
+                                            </a>
+                                        </li>
+                                        <li class="menu__item">
+                                            <div class="menu__item-submenu-offset"></div>
+                                            <a class="menu__item-link" href="{% url 'auth:registration' %}" aria-label="На страницу регистрации">
+                                                Зарегистрироваться
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {% else %}
+                                <div class="menu menu--layout--classic ">
+                                    <div class="menu__submenus-container"></div>
+                                    <ul class="menu__list">
+                                        <li class="menu__item">
+                                            <div class="menu__item-submenu-offset"></div>
+                                            <a class="menu__item-link" href="{% url 'account:profile' %}" aria-label="Страница профиля">
+                                                Страница профиля
+                                            </a>
+                                        </li>
+                                        <li class="menu__item">
+                                            <div class="menu__item-submenu-offset"></div>
+                                            <a class="menu__item-link" href="{% url 'account:users_auto' %}" aria-label="Автопарк">
+                                                Автопарк
+                                            </a>
+                                        </li>
+                                        <li class="menu__item">
+                                            <div class="menu__item-submenu-offset"></div>
+                                            <a class="menu__item-link" href="{% url 'order:history' %}" aria-label="История заказов">
+                                                История заказов
+                                            </a>
+                                        </li>
+                                        <li class="menu__item">
+                                            <div class="menu__item-submenu-offset"></div>
+                                            <a class="menu__item-link" href="{% url 'account:edit_profile' %}" aria-label="Изменить профиль">
+                                                Изменить профиль
+                                            </a>
+                                        </li>
+                                        <li class="menu__item">
+                                            <div class="menu__item-submenu-offset"></div>
+                                            <a class="menu__item-link" href="{% url 'auth:password_change' %}" aria-label="Изменить пароль">
+                                                Изменить пароль
+                                            </a>
+                                        </li>
+                                        <li class="menu__item">
+                                            <div class="menu__item-submenu-offset"></div>
+                                            <a class="menu__item-link" href="{% url 'auth:logout' %}" aria-label="Выйти из аккаунта">
+                                                Выйти
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {% endif %}
+                            </div>
+                            </li>
+                            <li class="nav-links__item ">
+                                <a class="nav-links__item-link" href="{% url 'shop:brands_list' %}" aria-label="Страница производителей">
+                                    <div class="nav-links__item-body">
+                                        Производители
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-links__item ">
+                                <a class="nav-links__item-link" href="{% url 'shop:promotions' %}" aria-label="Страница акций">
+                                    <div class="nav-links__item-body">
+                                        Акции
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-links__item ">
+                                <a class="nav-links__item-link" href="{% url 'pages:contacts' %}" aria-label="Страница контактов">
+                                    <div class="nav-links__item-body">
+                                        Контакты
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-links__item ">
+                                <a class="nav-links__item-link" href="{% url 'pages:about' %}" aria-label="Страница 'О нас'">
+                                    <div class="nav-links__item-body">
+                                        О нас
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nav-panel__indicators">
+                        <div class="indicator indicator--trigger--click">
+                            <a href="{% url 'cart:cart' %}" class="indicator__button" aria-label="Корзина покупок" aria-label="Корзина покупок">
+                                <span class="indicator__area">
+                                    <svg width="20px" height="20px">
+                                        <use xlink:href="/static/images/sprite.svg#cart-20"></use>
+                                    </svg>
+                                    {% if user.is_authenticated %}
+                                        <span class="indicator__value">{{ cart.count }}</span>
+                                    {% endif %}
+                                </span>
+                            </a>
+                        <div class="indicator__dropdown">
+                            <div class="dropcart dropcart--style--dropdown">
+                                <div class="dropcart__body">
+                                    {% if user.is_authenticated %}  <!-- Если пользователь авторизован -->
+                                        {% if cart_products %}  <!-- Если корзина не пуста -->
+                                            <div id="dropcart_delete_product" class="dropcart__products-list">
+                                                {% include "includes/dropcart_product.html" %}
+                                            </div>
+                                            <div class="dropcart__totals">
+                                                <table>
+                                                    <tr>
+                                                        <th>Итого:</th>
+                                                        <td>{{ cart.total_price }} руб.</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="dropcart__buttons">
+                                                <a class="btn btn-secondary" href="{% url 'cart:cart' %}">Корзина</a>
+                                                <a class="btn btn-primary" href="{% url 'cart:checkout' %}">Оформить</a>
+                                            </div>
+                                        {% else %}  <!-- Если корзина пуста -->
+                                        <div class="block-empty__body">
+                                            <div class="block-empty__message">В корзине пока ничего нет...<p>Но это можно исправить!</p></div>
+                                            <div class="block-empty__actions">
+                                                <a class="btn btn-primary btn-sm" href="{% url 'shop:all_products' %}">В каталог товаров</a>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    {% else %}  <!-- Если пользователь неавторизован -->
+                                        <div class="dropcart__empty">
+                                            <div class="block-empty__message">Пожалуйста, авторизуйтесь.</div>
+                                            <div class="block-empty__actions">
+                                                <a class="btn btn-primary btn-sm" href="{% url "auth:login" %}" aria-label="На страницу авторизации">Войти</a>
+                                                <a class="btn btn-primary btn-sm" href="{% url "auth:registration" %}" aria-label="На страницу регистрации">Зарегистрироваться</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="indicator indicator--trigger--click">
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'account:profile' %}" class="indicator__button" aria-label="На страницу профиля">
+                            {% else %}
+                            <a href="#" class="indicator__button" aria-label="Открыть меню 'Войти/Регистрация'">
+                            {% endif %}
+                                <span class="indicator__area">
+                                    <svg width="20px" height="20px">
+                                        <use xlink:href="/static/images/sprite.svg#person-20"></use>
+                                    </svg>
+                                </span>
+                            </a>
+                            <div class="indicator__dropdown">
+                                <div class="account-menu">
+                                {% if not user.is_authenticated %}
+                                    <form class="account-menu__form" method="post" action="{% url 'auth:login' %}">
+                                    {% csrf_token %}
+                                        <div class="account-menu__form-title">Войти в аккаунт</div>
+                                        <div class="form-group">
+                                            <label for="header-signin-username" class="sr-only"></label>
+                                            <input id="header-signin-username" type="text" class="form-control form-control-sm" name="username" placeholder="Электронная почта" autocomplete="username" aria-label="Ввести логин">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="header-signin-password" class="sr-only"></label>
+                                            <div class="account-menu__form-forgot">
+                                                <input id="header-signin-password" type="password" class="form-control form-control-sm" name="password" placeholder="Пароль" autocomplete="current-password" aria-label="Ввести пароль">
+                                                <a href="{% url 'auth:password_reset' %}" class="account-menu__form-forgot-link">Забыли?</a>
+                                            </div>
+                                        </div>
+                                        <div class="form-group account-menu__form-button">
+                                            <button type="submit" class="btn btn-primary btn-sm" aria-label="Войти по логин/паролю">Войти</button>
+                                        </div>
+                                        <div class="account-menu__form-link"><a href="{% url 'auth:registration' %}">Зарегистрироваться</a></div>
+                                    </form>
+                                    <div class="form-group d-flex justify-content-center">
+                                        <button class="btn btn-primary mx-1" aria-label="Войти с помощью Google-аккаунта">
+                                            <a style="color: #ffffff;" href="{% provider_login_url 'google' %}?next=/">
+                                                <i class="fab fa-google" style="color: #fff;"></i>
+                                                &nbsp;&nbsp;&nbsp;Google
+                                            </a>
+                                        </button>
+                                        <button class="btn btn-primary mx-1" aria-label="Войти с помощью Yandex-аккаунта">
+                                            <a style="color: #ffffff;" href="{% provider_login_url 'yandex' %}?next=/">
+                                                <i class="fab fa-yandex " style="color: #fff;"></i>
+                                                &nbsp;&nbsp;&nbsp;Яндекс
+                                            </a>
+                                        </button>
+                                    </div>
+                                {% else %}
+                                    <div class="account-menu__divider"></div>
+                                    <a href="{% url 'account:profile' %}" class="account-menu__user">
+                                        <div class="account-menu__user-avatar">
+                                            <img src="/static/images/avatars/user-ico.jpg" alt="">
+                                        </div>
+                                        <div class="account-menu__user-info">
+                                            <div class="account-menu__user-name">{% if user.first_name or user.last_name %} {{ user.get_full_name }} {% else %} {{ user.email }} {% endif %}</div>
+                                        </div>
+                                    </a>
+                                    <div class="account-menu__divider"></div>
+                                    <ul class="account-menu__links">
+                                        <li><a href="{% url 'order:history' %}">История заказов</a></li>
+                                        <li><a href="{% url 'account:edit_profile' %}">Редактировать профиль</a></li>
+                                        <li><a href="{% url 'auth:password_change'%}">Изменить пароль</a></li>
+                                    </ul>
+                                    <div class="account-menu__divider"></div>
+                                    <ul class="account-menu__links">
+                                        <li><a href="{% url 'auth:logout' %}">Выйти</a></li>
+                                    </ul>
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  {% if view_name != 'shop:homepage' %}
+  <div class="page-header">
+    <div class="page-header__container container">
+    </div>
+  </div>
+  {% endif %}
+{% endwith %}
+</header>

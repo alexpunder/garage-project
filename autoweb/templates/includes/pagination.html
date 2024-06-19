@@ -1,0 +1,35 @@
+{% if page_obj.has_other_pages %}
+<nav aria-label="Page navigation" class="products-view__pagination">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link page-link--with-arrow" href="?page={{ page_obj.previous_page_number }}" aria-label="Предыдущая">
+                <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true" width="8px" height="13px">
+                    <use xlink:href="/static/images/sprite.svg#arrow-rounded-left-8x13"></use>
+                </svg>
+            </a>
+        </li>
+        {% endif %}
+        {% for i in page_obj.paginator.page_range %}
+            {% if i == page_obj.number %}
+                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+            {% else %}
+                {% if i > page_obj.number|add:"-3" and i < page_obj.number|add:"3" %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link page-link--with-arrow" href="?page={{ page_obj.next_page_number }}" aria-label="Следующая">
+                    <svg class="page-link__arrow page-link__arrow--right" aria-hidden="true" width="8px" height="13px">
+                        <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-8x13"></use>
+                    </svg>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

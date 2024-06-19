@@ -1,0 +1,64 @@
+{% load static %}
+
+<style>
+    .product-card a {
+        color: inherit;
+        text-decoration: none;
+      }
+</style>
+
+<div class="products-list__item">
+    <div class="product-card product-card--hidden-actions ">
+        {% with product.images.first as first_image %}
+            {% if first_image %}
+                <div class="product-card__image product-image">
+                    <a href="{{ product.get_absolute_url }}" class="product-image__body" aria-label="Изображение товара, перейти на страницу товара">
+                        <img class="product-image__img" src="{{ first_image.image.url }}" alt="">
+                    </a>
+                </div>
+            {% else %}
+                <div class="product-card__image product-image">
+                    <a href="{{ product.get_absolute_url }}" class="product-image__body">
+                        <img class="product-image__img" src="{% static 'images/image-holder.webp' %}" alt="" aria-label="Изображение отсутствует, перейти на страницу товара">
+                    </a>
+                </div>
+            {% endif %}
+        {% endwith %}
+        <div class="product-card__info">
+            <div class="product-card__name">
+                <a href="{{ product.get_absolute_url }}"><h5>{{ product.title }}</h5></a>
+            </div>
+            <ul class="product-card__features-list">
+                <li>Категория: <a href="{{ product.category.get_absolute_url }}" aria-label="Перейти в связанную категорию">{{ product.category.title }}</a></li>
+                <li>Подкатегория: <a href="{{ product.subcategory.get_absolute_url }}" aria-label="Перейти в связанную подкатегорию">{{ product.subcategory.title }}</a></li>
+                <li>Производитель: <a href="{{ product.brand.get_absolute_url }}" aria-label="Перейти к связанному производителю">{{ product.brand.title }}</a></li>
+                <li>Артикул: <a href="{{ product.get_absolute_url }}" aria-label="Перейти на страницу товара">{{ product.article }}</a></li>
+            </ul>
+        </div>
+        {% comment %} <div class="product-card__info">
+            <div class="product-card__name">
+                <a href=""><h5></h5></a>
+            </div>
+            {% for key, value in specification_dict.items %}
+            <ul class="product-card__features-list">
+                <li>{{ key }}: {{ value }}</li>
+            </ul>
+            {% endfor %}
+        </div> {% endcomment %}
+        <div class="product-card__actions">
+            <div class="product-card__availability">
+                В наличии: <span class="text-success">{{ product.quantity }}</span>
+            </div>
+            <div class="product-card__prices">
+                {{ product.price }} руб.
+            </div>
+            <form class="product-card__buttons" method="POST" action="{% url 'cart:cart_add' product.pk %}">
+                {% csrf_token %}
+                <div class="product__actions-item product__actions-item--addtocart">
+                    <input class="btn btn-primary product-card__addtocart" type="submit" value="В корзину" aria-label="Добавить в корзину">
+                    <input class="btn btn-secondary product-card__addtocart product-card__addtocart--list" type="submit" value="В корзину" aria-label="Добавить в корзину">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

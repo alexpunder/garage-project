@@ -1,0 +1,40 @@
+user-agent: Yandex
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /account/
+Disallow: /auth/
+Disallow: /profile/
+Disallow: /cart/
+Disallow: /orders/
+Disallow: /search/
+
+Disallow: /*?
+Disallow: /*&
+Disallow: *?page=*&
+
+Clean-param: category
+Clean-param: subcategory
+Clean-param: brand
+Clean-param: price_min
+Clean-param: price_max
+
+
+user-agent: *
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /account/
+Disallow: /auth/
+Disallow: /profile/
+Disallow: /cart/
+Disallow: /orders/
+Disallow: /search/
+
+Disallow: /*?
+Disallow: /*&
+Disallow: *?page=*&
+
+Clean-param: category
+Clean-param: subcategory
+Clean-param: brand
+Clean-param: price_min
+Clean-param: price_max

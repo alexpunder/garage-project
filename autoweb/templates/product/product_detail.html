@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+<style>
+  .card-detail__title {
+      font-size: 1.5em; /* Размер шрифта */
+      font-weight: bold; /* Жирный шрифт */
+  }
+</style>
+
+{% block content %}
+
+<div class="page-header">
+  <div class="page-header__container container">
+      <div class="page-header__breadcrumb">
+          <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                      <a href="{% url 'shop:homepage' %}">Главная</a>
+                      <svg class="breadcrumb-arrow" width="6px" height="9px">
+                          <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                      </svg>
+                  </li>
+                  <li class="breadcrumb-item">
+                      <a href="{% url 'shop:categories_list' %}">Список категорий</a>
+                      <svg class="breadcrumb-arrow" width="6px" height="9px">
+                          <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                      </svg>
+                  </li>
+                  <li class="breadcrumb-item">
+                      <a href="{% url 'shop:subcategory_list' category_slug %}">Список подкатегорий</a>
+                      <svg class="breadcrumb-arrow" width="6px" height="9px">
+                          <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                      </svg>
+                  </li>
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'shop:product_list' category_slug subcategory_slug %}">Товары категории</a>
+                    <svg class="breadcrumb-arrow" width="6px" height="9px">
+                        <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                    </svg>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+              </ol>
+          </nav>
+      </div>
+      <div class="page-header__title">
+          <h1>{{ title }}</h1>
+      </div>
+  </div>
+</div>
+
+<div id="cart-container"></div>
+<div class="site__body">
+  <div class="block">
+    <div class="container">
+      <div class="product product--layout--standard" data-layout="standard">
+        <div class="product__content">
+          <!-- .product__gallery -->
+          {% if images %}
+          <div class="product__gallery">
+            <div class="product-gallery">
+              <div class="product-gallery__featured">
+                  <button class="product-gallery__zoom" aria-label="Увеличить">
+                      <svg width="24px" height="24px">
+                          <use xlink:href="{{ images.first.image.url }}"></use>
+                      </svg>
+                  </button>
+                  <div class="owl-carousel" id="product-image">
+                    {% for img in images %}
+                      <div class="product-image product-image--location--gallery">
+                          <a href="{{ img.image.url }}" class="product-image__body" target="_blank">
+                              <img class="product-image__img" src="{{ img.image.url }}" alt="">
+                          </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+              </div>
+              <div class="product-gallery__carousel">
+                <div class="owl-carousel" id="product-carousel">
+                  {% for img in images %}
+                  <a href="{{ img.image.url }}" class="product-image product-gallery__carousel-item">
+                    <div class="product-image__body">
+                      <img class="product-image__img product-gallery__carousel-image" src="{{ img.image.url }}" alt="">
+                    </div>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div class="product__gallery">
+            <div class="product-gallery">
+              <div class="product-gallery__featured">
+                <button class="product-gallery__zoom" aria-label="изображение отсутствует">
+                  <svg width="24px" height="24px">
+                    <use xlink:href="#"></use>
+                  </svg>
+                </button>
+                <div class="owl-carousel" id="product-image">
+                  <div class="product-image product-image--location--gallery">
+                    <a href="#" data-width="700" data-height="700" class="product-image__body" target="_blank">
+                      <img class="product-image__img" src="{% static 'images/image-holder.webp' %}" alt="">
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="product-gallery__carousel">
+                  <div class="owl-carousel" id="product-carousel">
+                      <a href="#" class="product-image product-gallery__carousel-item">
+                          <div class="product-image__body">
+                              <img class="product-image__img product-gallery__carousel-image" src="{% static 'images/image-holder.webp' %}" alt="">
+                          </div>
+                      </a>
+                  </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          <!-- .product__gallery / end -->
+          <!-- .product__info -->
+          <div class="product__info">
+            <h1 class="product__name">{{ product.title }}</h1>
+            <div class="text-break">
+              {{ product.description }}
+            </div>
+            <ul class="product__meta">
+              <li>Производитель: <a href="{% url 'shop:brand_detail' slug_brand=product.brand.slug_brand %}"><p class="card-detail__title">{{ product.brand.title }}</p></a></li>
+              <li>Артикул: <p class="card-detail__title">{{ product.article }}</p></a></li>
+            </ul>
+          </div>
+          <!-- .product__info / end -->
+          <!-- .product__sidebar -->
+          <div class="product__sidebar">
+            <div class="product__prices">
+              {{ product.price }} руб.
+            </div>
+            <!-- .product__options -->
+            <form class="product__options" method="POST" action="{% url 'cart:cart_add' product.pk %}">
+              {% csrf_token %}
+              <div class="form-group product__option">
+                  <label class="product__option-label" for="product-quantity">Доступно в наличии: <h7>{{ product.quantity }}</h7></label>
+                  <div class="product__actions">
+                      <div class="product__actions-item">
+                          <div class="input-number product__quantity">
+                              <input id="product-quantity" class="input-number__input form-control form-control-lg" type="number" min="1" max="{{ product.quantity }}" value="1" name="quantity">
+                              <div class="input-number__add"></div>
+                              <div class="input-number__sub"></div>
+                          </div>
+                      </div>
+                      <div class="product__actions-item product__actions-item--addtocart">
+                          <input class="btn btn-primary btn-lg" type="submit" value="Добавить в корзину">
+                      </div>
+                  </div>
+              </div>
+            </form>
+            <!-- .product__options / end -->
+          </div>
+          <!-- .product__end -->
+          <div class="product__footer">
+            <div class="product__tags tags">
+              <div class="tags__list">
+                <a href="{{ product.category.get_absolute_url }}">{{ product.category.title }}</a>
+                <a href="{{ product.subcategory.get_absolute_url }}">{{ product.subcategory.title }}</a>
+                <a href="{{ product.brand.get_absolute_url }}">{{ product.brand.title }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product-tabs  product-tabs--sticky">
+        <div class="product-tabs__list">
+          <div class="product-tabs__list-body">
+            <div class="product-tabs__list-container container">
+              <a href="#tab-specification" class="product-tabs__item">Спецификация</a>
+              <a href="#tab-original-code" class="product-tabs__item">Применяемость</a>
+            </div>
+          </div>
+        </div>
+        <div class="product-tabs__content">
+          <div class="product-tabs__pane" id="tab-specification">
+            <div class="spec">
+              <h3 class="spec__header">Основные характеристики</h3>
+              <div class="spec__section">
+                <h4 class="spec__section-title"></h4>
+                {% for key, value in specification_dict.items %}
+                <div class="spec__row">
+                  <div class="spec__name">{{ key }}</div>
+                  <div class="spec__value">{{ value }}</div>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="spec__disclaimer">
+                Информация о технических характеристиках, комплекте поставки, стране-производителе и внешнем виде товара носит
+                справочный характер и основана на последней информации, доступной на момент публикации.
+              </div>
+            </div>
+          </div>
+          <div class="product-tabs__pane product-tabs__pane--active" id="tab-original-code">
+            <div class="typography">
+              <h3>Применяемость</h3>
+              {% for text_cross in text_cross_list %}
+                {{ text_cross }}</br>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

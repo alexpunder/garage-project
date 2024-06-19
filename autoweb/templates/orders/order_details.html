@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .card-table__body a {
+        color: inherit;
+        text-decoration: none;
+      }
+</style>
+<div class="block">
+    <div class="container">
+        <div class="row">
+            {% include "includes/account_navigation.html" %}
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="order-header">
+                        <div class="order-header__actions">
+                            {% if order.status in order_status_check %}
+                                <a href="{% url 'order:cancel_order' order.id %}" class="btn btn-xs btn-light">Отменить заказ</a>
+                            {% endif %}
+                            <a href="{% url 'order:history' %}" class="btn btn-xs btn-secondary">Список заказов</a>
+                        </div>
+                        <h5 class="order-header__title">Заказ номер #{{ order.id }}</h5>
+                        <div class="order-header__subtitle">
+                            Дата и время размещения: <mark class="order-header__date">{{ order.created_at }}</mark>
+                            <div>Статус заказа: <mark class="order-header__status">{{ order.status }}</mark></div>
+                        </div>
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="card-table">
+                        <div class="table-responsive-sm">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Наименование товара</th>
+                                        <th>Артикул</th>
+                                        <th>Производитель</th>
+                                        <th>Цена</th>
+                                        <th>Количество</th>
+                                        <th>Итого, руб.</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="card-table__body card-table__body--merge-rows">
+                                    {% for order_item in order_items %}
+                                    <tr>
+                                        <td><a href="{{ order_item.product.get_absolute_url }}">{{ order_item.product.title }}</a></td>
+                                        <td><a href="{{ order_item.product.get_absolute_url }}">{{ order_item.product.article }}</a></td>
+                                        <td><a href="{{ order_item.product.brand.get_absolute_url }}">{{ order_item.product.brand }}</a></td>
+                                        <td>{{ order_item.price_at_time_of_order }}</td>
+                                        <td>{{ order_item.quantity }}</td>
+                                        <td>{{ order_item.total_price }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th></th><th></th><th></th><th></th>
+                                        <th>Итого:</th>
+                                        <td>{{ order.total_price }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

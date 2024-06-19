@@ -1,0 +1,547 @@
+{% block content %}
+<div class="mobilemenu">
+    <div class="mobilemenu__backdrop"></div>
+    <div class="mobilemenu__body">
+        <div class="mobilemenu__header">
+            <div class="mobilemenu__title">Меню</div>
+            <button type="button" class="mobilemenu__close" aria-label="Закрыть меню">
+                <svg width="20px" height="20px">
+                    <use xlink:href="/static/images/sprite.svg#cross-20"></use>
+                </svg>
+            </button>
+        </div>
+        <div class="mobilemenu__content">
+            <ul class="mobile-links mobile-links--level--0" data-collapse data-collapse-opened-class="mobile-links__item--open">
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="{% url 'shop:homepage' %}" class="mobile-links__item-link">Главная</a>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Главная страница">
+                        </button>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="{% url 'shop:all_products' %}" class="mobile-links__item-link">Каталог товаров</a>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Главная страница">
+                        </button>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="{% url 'shop:categories_list' %}" class="mobile-links__item-link">Категории</a>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Категории">
+                            <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mobile-links__item-sub-links" data-collapse-content>
+                        <ul class="mobile-links mobile-links--level--1">
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:subcategory_list' 'motornoe-maslo' %}" class="mobile-links__item-link">Моторное масло</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Моторное масло">
+                                        <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="mobile-links__item-sub-links" data-collapse-content>
+                                    <ul class="mobile-links mobile-links--level--2">
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'motornoe-maslo' 'sinteticheskoe' %}" class="mobile-links__item-link">Синтетическое</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'motornoe-maslo' 'polusinteticheskoe' %}" class="mobile-links__item-link">Полусинтетическое</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'motornoe-maslo' 'lodochnoe' %}" class="mobile-links__item-link">Лодочное</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'motornoe-maslo' '2-i-4-h-taktnoe' %}" class="mobile-links__item-link">2 и 4-х тактное</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:subcategory_list' 'transmissionnoe-maslo' %}" class="mobile-links__item-link">Трансмиссионное масло</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Трансмиссионное масло">
+                                        <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="mobile-links__item-sub-links" data-collapse-content>
+                                    <ul class="mobile-links mobile-links--level--2">
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'mkpp' %}" class="mobile-links__item-link">МКПП</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'akpp' %}" class="mobile-links__item-link">АКПП</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'variatornoe' %}" class="mobile-links__item-link">Вариатор</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'transmissionnoe-maslo' 'dsg-i-robot' %}" class="mobile-links__item-link">DSG и робот</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:subcategory_list' 'ohlazhdayushaya-zhidkost' %}" class="mobile-links__item-link">Охлаждающая жидкость</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Охлаждающая жидкость">
+                                    </button>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'tormoznaya-zhidkost' %}" class="mobile-links__item-link">Тормозная жидкость</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Тормозная жидкость">
+                                    </button>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:subcategory_list' 'detali-to' %}" class="mobile-links__item-link">Фильтра</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Фильтра">
+                                        <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="mobile-links__item-sub-links" data-collapse-content>
+                                    <ul class="mobile-links mobile-links--level--2">
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-to' 'maslyanye-filtra' %}" class="mobile-links__item-link">Масляные фильтра</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-to' 'vozdushnye-filtra' %}" class="mobile-links__item-link">Воздушные фильтра</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-to' 'salonnye-filtra' %}" class="mobile-links__item-link">Салонные фильтра</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-to' 'toplivnye-filtra' %}" class="mobile-links__item-link">Топливные фильтра</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-to' 'filtry-kpp' %}" class="mobile-links__item-link">Фильтры КПП</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:subcategory_list' 'detali-dvigatelya' %}" class="mobile-links__item-link">Детали двигателя</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Детали двигателя">
+                                        <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="mobile-links__item-sub-links" data-collapse-content>
+                                    <ul class="mobile-links mobile-links--level--2">
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-dvigatelya' 'komplekty-grm' %}" class="mobile-links__item-link">Комплекты ГРМ</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-dvigatelya' 'vodyanye-nasosy-pompy' %}" class="mobile-links__item-link">Водяные насосы</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-dvigatelya' 'roliki-i-natyazhiteli' %}" class="mobile-links__item-link">Ролики и натяжители</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-dvigatelya' 'remni' %}" class="mobile-links__item-link">Поликлиновые ремни</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-dvigatelya' 'opory-dvigatelya' %}" class="mobile-links__item-link">Опоры двигателя</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'detali-dvigatelya' 'prokladki' %}" class="mobile-links__item-link">Прокладки</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:subcategory_list' 'podveska' %}" class="mobile-links__item-link">Подвеска</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Подвеска">
+                                        <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="mobile-links__item-sub-links" data-collapse-content>
+                                    <ul class="mobile-links mobile-links--level--2">
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'amortizatori' %}" class="mobile-links__item-link">Амортизаторы</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'opory-amortizatora' %}" class="mobile-links__item-link">Опоры амортизатора</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'pylniki-i-otbojniki' %}" class="mobile-links__item-link">Пыльники и отбойники</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'sajlentbloki' %}" class="mobile-links__item-link">Сайлентблоки</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'tyagi-strabilizatora' %}" class="mobile-links__item-link">Тяги стабилизатора</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'sharovye-opory' %}" class="mobile-links__item-link">Шаровые опоры</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'rulevye-nakonechniki' %}" class="mobile-links__item-link">Рулевые наконечники</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'rulevye-tyagi' %}" class="mobile-links__item-link">Рулевые тяги</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'rychagi-podveski' %}" class="mobile-links__item-link">Рычаги подвески</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'stupicy-i-podshipniki' %}" class="mobile-links__item-link">Ступицы и подшипники</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'vtulki-stabilizatora' %}" class="mobile-links__item-link">Втулки стабилизатора</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'podveska' 'pruzhiny' %}" class="mobile-links__item-link">Пружины</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:subcategory_list' 'tormoznaya-sistema' %}" class="mobile-links__item-link">Тормозная система</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Тормозная система">
+                                        <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="mobile-links__item-sub-links" data-collapse-content>
+                                    <ul class="mobile-links mobile-links--level--2">
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'perednie-kolodki' %}" class="mobile-links__item-link">Передние колодки</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'zadnie-kolodki' %}" class="mobile-links__item-link">Задние колодки</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'barabannye-kolodki' %}" class="mobile-links__item-link">Барабанные колодки</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'tormoznaya-sistema' 'tormoznye-diski' %}" class="mobile-links__item-link">Тормозные диски</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:subcategory_list' 'elektrooborudovanie' %}" class="mobile-links__item-link">Электрооборудование</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Электрооборудование">
+                                        <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="mobile-links__item-sub-links" data-collapse-content>
+                                    <ul class="mobile-links mobile-links--level--2">
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'elektrooborudovanie' 'lampy' %}" class="mobile-links__item-link">Автолампы</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'elektrooborudovanie' 'svechi-zazhiganiya' %}" class="mobile-links__item-link">Свечи зажигания</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'elektrooborudovanie' 'katushki' %}" class="mobile-links__item-link">Катушки</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'elektrooborudovanie' 'provoda' %}" class="mobile-links__item-link">Провода</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'elektrooborudovanie' 'datchiki' %}" class="mobile-links__item-link">Датчики</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'elektrooborudovanie' 'benzonasosy' %}" class="mobile-links__item-link">Бензонасосы</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:subcategory_list' 'stekloochistiteli' %}" class="mobile-links__item-link">Стеклоочистители</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Стеклоочистители">
+                                        <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="mobile-links__item-sub-links" data-collapse-content>
+                                    <ul class="mobile-links mobile-links--level--2">
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'stekloochistiteli' 'karkasnye' %}" class="mobile-links__item-link">Каркасные</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'stekloochistiteli' 'beskarkasnye' %}" class="mobile-links__item-link">Бескаркасные</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'stekloochistiteli' 'ressornye' %}" class="mobile-links__item-link">Рессорные</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'stekloochistiteli' 'gibridnye' %}" class="mobile-links__item-link">Гибридные</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'stekloochistiteli' 'adaptery' %}" class="mobile-links__item-link">Адаптеры</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'shop:subcategory_list' 'prochee' %}" class="mobile-links__item-link">Прочее</a>
+                                    <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Прочее">
+                                        <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="mobile-links__item-sub-links" data-collapse-content>
+                                    <ul class="mobile-links mobile-links--level--2">
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'prochee' 'smazka' %}" class="mobile-links__item-link">Смазка</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'prochee' 'klipsy' %}" class="mobile-links__item-link">Клипсы</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'prochee' 'avtokompressory' %}" class="mobile-links__item-link">Автокомпрессоры</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'prochee' 'voda' %}" class="mobile-links__item-link">Вода</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'prochee' 'homuty' %}" class="mobile-links__item-link">Хомуты</a>
+                                            </div>
+                                        </li>
+                                        <li class="mobile-links__item" data-collapse-item>
+                                            <div class="mobile-links__item-title">
+                                                <a href="{% url 'shop:product_list' 'prochee' 'inoe' %}" class="mobile-links__item-link">Иное</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="{% url 'shop:brands_list' %}" class="mobile-links__item-link">Производители</a>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Производители">
+                        </button>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                  {% if not user.is_authenticated %}
+                    <div class="mobile-links__item-title">
+                        <a href="{% url 'auth:login' %}" class="mobile-links__item-link">Профиль</a>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Профиль">
+                        </button>
+                    </div>
+                  {% else %}
+                    <div class="mobile-links__item-title">
+                        <a href="{% url 'account:profile' %}" class="mobile-links__item-link">Профиль</a>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Мой профиль">
+                            <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mobile-links__item-sub-links" data-collapse-content>
+                        <ul class="mobile-links mobile-links--level--1">
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'account:profile' %}" class="mobile-links__item-link">Страница профиля</a>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'account:users_auto' %}" class="mobile-links__item-link">Автопарк</a>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'order:history' %}" class="mobile-links__item-link">История заказов</a>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'account:edit_profile' %}" class="mobile-links__item-link">Изменить профиль</a>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'auth:password_change' %}" class="mobile-links__item-link">Изменить пароль</a>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'auth:logout' %}" class="mobile-links__item-link">Выйти</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                  {% endif %}
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <a href="{% url 'shop:promotions' %}" class="mobile-links__item-link">Акции</a>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Акции">
+                        </button>
+                    </div>
+                </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title">
+                        <span class="mobile-links__item-link">Страницы</span>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger aria-label="Вспомогательные страницы">
+                            <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                <use xlink:href="/static/images/sprite.svg#arrow-rounded-down-12x7"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mobile-links__item-sub-links" data-collapse-content>
+                        <ul class="mobile-links mobile-links--level--1">
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'pages:about' %}" class="mobile-links__item-link">О нас</a>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'pages:contacts' %}" class="mobile-links__item-link">Контакты</a>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'pages:confidential' %}" class="mobile-links__item-link">Политика конфиденциальности</a>
+                                </div>
+                            </li>
+                            <li class="mobile-links__item" data-collapse-item>
+                                <div class="mobile-links__item-title">
+                                    <a href="{% url 'pages:terms' %}" class="mobile-links__item-link">Пользовательское соглашение</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="order-header">
+                        <h5 class="order-header__title">Заказ номер #{{ order.id }}</h5>
+                        <div class="order-header__subtitle">
+                            Дата и время размещения: <mark class="order-header__date">{{ order.created_at }}</mark>
+                        </div>
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="card-table">
+                        <div class="table-responsive-sm">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Наименование товара</th>
+                                        <th>Количество</th>
+                                        <th>Артикул</th>
+                                        <th>Производитель</th>
+                                        <th>Итого</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="card-table__body card-table__body--merge-rows">
+                                    {% for order_item in order_items %}
+                                    <tr>
+                                        <td><a href="{{ order_item.product.get_absolute_url }}">{{ order_item.product.title }}</a></td>
+                                        <td>{{ order_item.quantity }}</td>
+                                        <td><a href="{{ order_item.product.get_absolute_url }}">{{ order_item.product.article }}</a></td>
+                                        <td><a href="{{ order_item.product.brand.get_absolute_url }}">{{ order_item.product.brand }}</a></td>
+                                        <td>{{ order_item.total_price }} руб.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th></th><th></th><th></th>
+                                        <th>Итого:</th>
+                                        <td>{{ order.total_price }} руб.</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% comment %} <html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <link rel="stylesheet" href="/static/fonts/arial.ttf">
+    <style type="text/css">
+        @page { size: A4; margin: 1cm; }
+        @font-face { font-family: Arial; src: url("/static/fonts/arial.ttf"); }
+        p { color: red; font-family: Arial; }
+    </style>
+</head>
+<body>
+    <p>Русский текст</p>
+</body>
+</html> {% endcomment %}

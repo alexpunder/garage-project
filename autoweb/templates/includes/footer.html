@@ -1,0 +1,77 @@
+{% load static %}
+
+{% load cache %}
+
+<style>
+    .footer-links__title,
+    .footer-contacts__title {
+        font-size: 1.5em; /* Размер шрифта */
+        font-weight: bold; /* Жирный шрифт */
+    }
+</style>
+
+{% cache 500 footer %}
+    <footer class="site__footer">
+    <div class="site-footer">
+        <div class="container">
+            <div class="site-footer__widgets">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="site-footer__widget footer-links">
+                            <p class="footer-links__title">Информация</p>
+                            <ul class="footer-links__list">
+                                <li class="footer-links__item"><a href="{% url 'pages:about' %}" class="footer-links__link">О нас</a></li>
+                                <li class="footer-links__item"><a href="{% url 'pages:contacts' %}" class="footer-links__link">Контакты</a></li>
+                                <li class="footer-links__item"><a href="{% url 'pages:terms' %}" class="footer-links__link">Пользовательское соглашение</a></li>
+                                <li class="footer-links__item"><a href="{% url 'pages:confidential' %}" class="footer-links__link">Конфиденциальность</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="site-footer__widget footer-contacts">
+                            <p class="footer-contacts__title">Наши контакты</p>
+                            <ul class="footer-contacts__contacts">
+                                <li>
+                                    <a href="https://yandex.ru/map-widget/v1/?um=constructor%3A266979062e8e136221e4e64e6a69126ac4a03b47ca7c348c41a9394e7dcd1ef5&amp;source=constructor" target="_blank">
+                                    <i class="footer-contacts__icon fas fa-globe-americas"></i> 404125, Волгоградская обл., Волжский,<br> ул. Пушкина 51д/317
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="mailto:autovlz@yandex.ru">
+                                    <i class="footer-contacts__icon far fa-envelope"></i> autovlz@yandex.ru
+                                    </a>
+                                </li>
+                                <li><i class="footer-contacts__icon fas fa-mobile-alt"></i><a href="tel:+79270669900">+7 (927) 066-99-00</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="site-footer__widget footer-contacts">
+                            <p class="footer-contacts__title">Время работы</p>
+                            <ul class="footer-contacts__contacts">
+                                <li><i class="footer-contacts__icon far fa-clock"></i>Пн-Пт: 8:30-17:00</li>
+                                <li><i class="footer-contacts__icon far fa-clock"></i>Суббота: выходной</li>
+                                <li><i class="footer-contacts__icon far fa-clock"></i>Воскресенье: выходной</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="site-footer__bottom"></div>
+        </div>
+        <div class="totop">
+            <div class="totop__body">
+                <div class="totop__start"></div>
+                <div class="totop__container container"></div>
+                <div class="totop__end">
+                    <button type="button" class="totop__button" aria-label="Пролистать обратно вверх">
+                        <svg width="13px" height="8px">
+                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-up-13x8"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </footer>
+{% endcache %}

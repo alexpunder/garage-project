@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<style>
+    .block-slideshow__slide-title,
+    .block-slideshow__slide-text {
+      background: linear-gradient(rgba(51, 51, 51, 0.7), rgba(51, 51, 51, 0.7));
+      color: #ffffff; /* Белый текст */
+      background-size: cover;
+      background-position: center;
+      padding: 10px; /* Подберите подходящий отступ */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Тень */
+    }
+
+    .block-banner__title,
+    .block-banner__text {
+        background: linear-gradient(rgba(51, 51, 51, 0.7), rgba(51, 51, 51, 0.7));
+        color: #ffffff; /* Белый текст */
+        background-size: cover;
+        background-position: center;
+        padding: 31px; /* Подберите подходящий отступ */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Тень */
+      }
+</style>
+
+<div class="site__body">
+    
+    <!-- Модальное окно -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="openModalButton" style="display: none;">
+        Запуск модального окна
+    </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="Запуск модального окна" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Уважаемые посетители!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+            <div class="modal-body">
+                <p>
+                    Сайт всё ещё находится на доработке, поэтому вся информация, содержащаяся в карточках товаров, <strong>неактуальна</strong>.
+                    <br><br>Благодарим за понимание!
+                </p>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Модальное окно -->
+    <!-- .block-slideshow -->
+    <div class="block-slideshow block-slideshow--layout--with-departments block">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 d-none d-lg-block"></div>
+                <div class="col-12 col-lg-9">
+                    <div class="block-slideshow__body">
+                        <div class="owl-carousel owl-theme" id="slider">
+                            <a class="block-slideshow__slide" href="{% url 'shop:all_products' %}">
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--desktop" style="background-image: url('/static/images/slides/motul-baner-homepage-2.webp')" loading="lazy"></div>
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile" style="background-image: url('/static/images/slides/motul-baner-homepage-2-mobile.webp')" loading="lazy"></div>
+                                <div class="block-slideshow__slide-content">
+                                    <div class="block-slideshow__slide-title">Широкий ассортимент запчастей<br>для Вашего автомобиля</div>
+                                    <div class="block-slideshow__slide-text">Независимо от модели или марки вашего автомобиля,<br>у нас Вы найдете все необходимое.</div>
+                                    <div class="block-slideshow__slide-button">
+                                        <span class="btn btn-primary btn-lg">Подробнее</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="block-slideshow__slide" href="{% url 'shop:all_products' %}">
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--desktop" style="background-image: url('/static/images/slides/motul-banner-homepage.webp')" loading="lazy"></div>
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile" style="background-image: url('/static/images/slides/motul-banner-homepage-mobile.webp')" loading="lazy"></div>
+                                <div class="block-slideshow__slide-content">
+                                    <div class="block-slideshow__slide-title">Большой выбор масел Motul</div>
+                                    <div class="block-slideshow__slide-text">Предлагаем моторные масла и защитные средства  Motul<br>для ваших автомобилей по самым выгодным ценам.</div>
+                                    <div class="block-slideshow__slide-button">
+                                        <span class="btn btn-primary btn-lg">Подробнее</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="block-slideshow__slide" href="{% url 'shop:all_products' %}">
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--desktop" style="background-image: url('/static/images/slides/motul-baner-homepage-1.webp')" loading="lazy"></div>
+                                <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile" style="background-image: url('/static/images/slides/motul-baner-homepage-1.webp')" loading="lazy"></div>
+                                <div class="block-slideshow__slide-content">
+                                    <div class="block-slideshow__slide-title">Профессиональный подход<br>к подбору запчастей</div>
+                                    <div class="block-slideshow__slide-text">Благодаря более чем двадцатилетнему опыту,<br>умеем и можем больше.</div>
+                                    <div class="block-slideshow__slide-button">
+                                        <span class="btn btn-primary btn-lg">Подробнее</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .block-slideshow / end -->
+    <!-- .block-products-carousel -->
+    <div class="block block-products-carousel" data-layout="grid-4" data-mobile-grid-columns="2">
+        <div class="container">
+            <div class="block-header">
+                <h3 class="block-header__title">Рекомендуемые товары</h3>
+                <div class="block-header__divider"></div>
+                <div class="block-header__arrows-list">
+                    <button class="block-header__arrow block-header__arrow--left" type="button" aria-label="Листать влево">
+                        <svg width="7px" height="11px">
+                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-left-7x11"></use>
+                        </svg>
+                    </button>
+                    <button class="block-header__arrow block-header__arrow--right" type="button" aria-label="Листать вправо">
+                        <svg width="7px" height="11px">
+                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-7x11"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="block-products-carousel__slider">
+                <div class="block-products-carousel__preloader"></div>
+                <div class="owl-carousel">
+                    {% for product in product_list %}
+                        {% include "includes/extend_product_card.html" %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .block-products-carousel / end -->
+    <!-- .block-banner -->
+    <div class="block block-banner">
+        <div class="container">
+            <a href="{% url 'shop:brand_detail' 'motul' %}" class="block-banner__body">
+                <img class="block-banner__image block-banner__image--desktop" src="/static/images/banners/bottom-motul-banner.webp" alt="" width="auto" height="100%" loading="lazy">
+                <img class="block-banner__image block-banner__image--mobile" src="/static/images/banners/bottom-motul-banner-mobile.webp" alt="" width="auto" height="100%" loading="lazy">
+                <div class="block-banner__text">Мы являемся официальным представителем и несем полную ответственность<br> за оригинальность и качество каждой канистры моторного масла MOTUL.</div>
+                <div class="block-banner__button">
+                    <span class="btn btn-sm btn-primary">Узнать подробности</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!-- .block-banner / end -->
+    <!-- .block-brands -->
+    <div class="block block-brands">
+        <div class="container">
+            <div class="block-brands__slider">
+                <div class="owl-carousel">
+                    {% for brand in brands %}
+                        {% if brand.image %}
+                            <div class="block-brands__item">
+                                <a href="{{ brand.get_absolute_url }}" aria-label="Изображение товара, перейти на страницу товара"><img src="{{ brand.image.url }}" alt="" loading="lazy" width="100%" height="100%"></a>
+                            </div>
+                        {% else %}
+                            <div class="block-brands__item">
+                                <a href="{{ brand.get_absolute_url }}" aria-label="Изображение отсутствует, перейти на страницу товара"><img src="{% static 'images/image-holder.webp' %}" alt="" width="100%" height="100%" loading="lazy"></a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- .block-brands / end -->
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+      myModal.show();
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<body>
+    <div class="site">
+        <div class="site__body">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12 col-lg-9 col-xl-8">
+                        <div class="block post post--layout--full">
+                            <div class="post__header post-header post-header--layout--full">
+                                <h1 class="post-header__title">{{ promotion.title }}</h1>
+                                <div class="post-header__meta">
+                                    <div class="post-header__meta-item"><h4>{{ promotion.pub_date }}</h4></div>
+                                </div>
+                            </div>
+                            {% if promotion.image %}
+                            <div class="post__featured">
+                                <img src="{{ promotion.image.url }}" alt="">
+                            </div>
+                            {% else %}
+                            <div class="post__featured">
+                                <img src="{% static 'images/posts/post-featured.jpg' %}" alt="">
+                            </div>
+                            {% endif %}
+                            <div class="post__content typography  typography--expanded text-break">
+                                <p>
+                                    {{ promotion.description|linebreaks }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

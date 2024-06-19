@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="block">
+    <div class="container">
+        <div class="row">
+            {% include "includes/account_navigation.html" %}
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>История заказов</h5>
+                    </div>
+                    <div class="card-divider"></div>
+                    {% if orders_list %}
+                    <div class="card-table">
+                        <div class="table-responsive-sm">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Номер заказа</th>
+                                        <th>Дата оформления</th>
+                                        <th>Позиций в заказе</th>
+                                        <th>Итого, руб.</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders_list %}
+                                    <tr>
+                                        <td><a href="{% url 'order:details' order.pk %}">#{{ order.id }}</a></td>
+                                        <td>{{ order.created_at }}</td>
+                                        <td>{{ order.count }}</td>
+                                        <td>{{ order.total_price }}</td>
+                                        <td>
+                                            {% if order.status == 'Обработка заказа' %}
+                                                <span class="text-primary">{{ order.status }}</span>
+                                            {% elif order.status == 'Ожидает самовывоза' %}
+                                                <span class="text-warning">{{ order.status }}</span>
+                                            {% elif order.status == 'Отменен клиентом' %}
+                                                <span class="text-danger">{{ order.status }}</span>
+                                            {% elif order.status == 'Отменен магазином' %}
+                                                <span class="text-danger">{{ order.status }}</span>
+                                            {% elif order.status == 'Выдан' %}
+                                                <span class="text-success">{{ order.status }}</span>
+                                            {% else %}
+                                                <span>{{ order.status }}</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-divider"></div>
+                    {% else %}
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="card-body">
+                                <h7>Вы ещё не совершали покупок на нашем сайте, поэтому ваша история заказов пока пуста. 
+                                    Но мы уверены, что Вы найдёте много интересных товаров в наших каталогах!</h7>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

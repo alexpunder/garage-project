@@ -1,0 +1,62 @@
+version: '3'
+
+volumes:
+  pg_data:
+  static:
+  media:
+
+services:
+  db:
+    image: postgres:13.10
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./autoweb/
+    env_file: .env
+    volumes:
+      - static:/static
+      - media:/app/media
+    depends_on:
+      - db
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  redis:
+    build:
+      context: ./redis/
+      dockerfile: Dockerfile
+    ports:
+      - 6379:6379
+
+  worker:
+    build: ./autoweb/
+    env_file: .env
+    command: celery -A autoweb worker --loglevel=info
+    depends_on:
+      - db
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    links:
+      - redis
+    volumes:
+      - static:/static
+      - media:/app/media
+    
+
+  nginx:
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    ports:
+      - 8000:80
+    volumes:
+      - static:/static
+      - media:/app/media
+    depends_on:
+      - backend

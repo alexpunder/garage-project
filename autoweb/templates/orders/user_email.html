@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h2>Ваш заказ: #{{ order.id }} от {{ order.created_at }}</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Артикул</th>
+                <th>Бренд</th>
+                <th>Название товара</th>
+                <th>Количество</th>
+                <th>Цена, руб.</th>
+                <th>Сумма, руб.</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.0 }}</td>
+                <td>{{ item.1 }}</td>
+                <td>{{ item.2 }}</td>
+                <td>{{ item.3 }}</td>
+                <td>{{ item.4 }}</td>
+                <td>{{ item.5 }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4"></td>
+                <td><strong>Итого, руб.</strong></td>
+                <td><strong>{{ order.total_price }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

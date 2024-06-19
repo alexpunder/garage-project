@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'shop:homepage' %}">Главная</a>
+                        <svg class="breadcrumb-arrow" width="6px" height="9px">
+                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                        </svg>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'cart:cart' %}">Корзина товаров</a>
+                        <svg class="breadcrumb-arrow" width="6px" height="9px">
+                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                        </svg>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="page-header__title">
+            <h1>{{ title }}</h1>
+        </div>
+    </div>
+</div>
+
+<div class="site__body">
+    <div class="checkout block">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-6 col-xl-7">
+                    <div class="card mb-lg-0">
+                        <div class="card-body">
+                            <h3 class="card-title">Информация о покупателе</h3>
+                            <form method="post" id="customer-info-form" action="{% url 'cart:update_checkout' %}">
+                                {% csrf_token %}
+                                
+                                {% for field in form %}
+                                    <div class="form-group mb-3{% if field.errors %} has-error{% endif %}">
+                                        {% bootstrap_field field form_group_class='my_custom_class' %}
+                                    </div>
+                                {% endfor %}
+                                    <div class="typography">
+                                        Пожалуйста, введи корректный номер телефона, чтобы мы могли с Вами связаться при возникновении необходимости уточнения деталей заказа.
+                                    </div>
+                                <div class="form-group mt-5 mb-0">
+                                    <button class="btn btn-primary" aria-label="Подтвердить изменения">Подтвердить изменения</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-divider"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <h3 class="card-title">Ваш заказ</h3>
+                            <table class="checkout__totals">
+                                <thead class="checkout__totals-header">
+                                    <tr>
+                                        <th>Наименование товара</th>
+                                        <th>Итого, руб.</th>
+                                    </tr>
+                                </thead>
+                                {% for cart_item in cart_products %}
+                                    <tbody class="checkout__totals-products">
+                                        <tr>
+                                            <td>{{ cart_item.product.title }} × {{ cart_item.quantity }}</td>
+                                            <td>{{ cart_item.total_price }}</td>
+                                        </tr>
+                                    </tbody>
+                                {% endfor %}
+                                <tfoot class="checkout__totals-footer">
+                                    <tr>
+                                        <th>Общий итог:</th>
+                                        <td>{{ cart.total_price }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="payment-methods">
+                                <ul class="payment-methods__list">
+                                    <li class="payment-methods__item payment-methods__item--active">
+                                        <label class="payment-methods__item-header">
+                                            <span class="payment-methods__item-radio input-radio">
+                                                <span class="input-radio__body">
+                                                    <input class="input-radio__input" name="checkout_payment_method" type="radio" checked>
+                                                    <span class="input-radio__circle"></span>
+                                                </span>
+                                            </span>
+                                            <span class="payment-methods__item-title">Оплата в магазине</span>
+                                        </label>
+                                        <div class="payment-methods__item-container">
+                                            <div class="payment-methods__item-description text-muted">
+                                                На данный момент доступен только этот вариант оплаты, но мы работаем
+                                                и над другими! В магазине оплата возможна как наличными, так и 
+                                                банковской картой, и по QR-коду.
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="checkout__agree form-group">
+                                <div class="form-check">
+                                    <form method="POST" action="{% url 'order:create_order' %}">
+                                        {% csrf_token %}
+                                        <div class="checkout__agree form-group">
+                                            <div class="form-check">
+                                                <span class="form-check-input input-check">
+                                                    <span class="input-check__body">
+                                                        <input class="input-check__input" type="checkbox" id="checkout-terms">
+                                                        <span class="input-check__box"></span>
+                                                        <svg class="input-check__icon" width="9px" height="7px">
+                                                            <use xlink:href="/static/images/sprite.svg#check-9x7"></use>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                                <label class="form-check-label" for="checkout-terms">
+                                                    Я прочитал и согласен <a target="_blank" href="{% url 'pages:terms' %}">с пользовательским соглашением сайта</a> 
+                                                    и <a target="_blank" href="{% url 'pages:confidential' %}">политикой конфиденциальности</a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" id="submit-order-button" class="btn btn-primary btn-xl btn-block" aria-label="Оформить" disabled>Оформить</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% verbatim %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Получаем элементы формы и кнопки "Разместить заказ"
+    const customerInfoForm = document.getElementById("customer-info-form");
+    const orderForm = document.getElementById("order-form");
+    const submitOrderBtn = document.getElementById("submit-order-button");
+    const termsCheckbox = document.getElementById("checkout-terms");
+
+    function checkFormValidity() {
+        // Проверка валидности формы и состояние чекбокса "соглашения"
+        if (customerInfoForm.checkValidity() && termsCheckbox.checked) {
+            submitOrderBtn.removeAttribute("disabled");
+        } else {
+            submitOrderBtn.setAttribute("disabled", true);
+        }
+    }
+    
+    // Отслеживаем изменения формы информации о покупателе и чекбокса "соглашения"
+    customerInfoForm.addEventListener("change", checkFormValidity);
+    termsCheckbox.addEventListener("change", checkFormValidity);
+
+    // Первоначальная проверка валидности формы и состояния чекбокса пользовательского соглашения
+    checkFormValidity();
+});
+</script>
+{% endverbatim %}
+{% endblock %}

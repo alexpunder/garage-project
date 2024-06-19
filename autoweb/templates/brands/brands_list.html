@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'shop:homepage' %}">Главная</a>
+                        <svg class="breadcrumb-arrow" width="6px" height="9px">
+                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                        </svg>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="page-header__title">
+            <h1>{{ title }}</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="block">
+                <div class="products-view">
+                    <div class="products-view__list products-list" data-layout="grid-4-full" data-with-features="false" data-mobile-grid-columns="2">
+                        <div class="products-list__body">
+                            {% for brand in brands_list %}
+                                <div class="products-list__item">
+                                    <div class="product-card">
+                                        {% if brand.image %}
+                                            <div class="product-card__image product-image">
+                                            <a href="{{ brand.get_absolute_url }}" class="product-image__body">
+                                                <img class="product-image__img" src="{{ brand.image.url }}" alt="">
+                                            </a>
+                                            </div>
+                                        {% else %}
+                                            <div class="product-card__image product-image">
+                                                <a href="{{ brand.get_absolute_url }}" class="product-image__body">
+                                                    <img class="product-image__img" src="{% static 'images/image-holder.png' %}" alt="">
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                        <div class="product-card__info">
+                                            <div class="product-card__name">
+                                                <a href="{{ brand.get_absolute_url }}"><h5>{{ brand.title }}</h5></a>
+                                                {% if brand.producing_country %}
+                                                    <a>{{ brand.producing_country }}</a>
+                                                {% else %}
+                                                    <a>Неизвестно</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

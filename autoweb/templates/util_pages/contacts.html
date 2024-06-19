@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="site__body">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__title">
+                <h1>Наши контакты</h1>
+            </div>
+        </div>
+    </div>
+    <div class="block">
+        <div class="container">
+            <div class="card mb-0 contact-us">
+                <div class="contact-us__map">
+                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A266979062e8e136221e4e64e6a69126ac4a03b47ca7c348c41a9394e7dcd1ef5&amp;source=constructor" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="card-body">
+                    <div class="contact-us__container">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 pb-4 pb-lg-0">
+                                <h4 class="contact-us__header card-title">Наш адрес</h4>
+                                <div class="contact-us__address">
+                                    <p>
+                                        404125, Волгоградская обл., Волжский, ул. Пушкина 51д/317<br>
+                                        <a href="mailto:autovlz@yandex.ru">Электронная почта: autovlz@yandex.ru<br>
+                                        <a href="tel:+79270669900">Телефон: +7 (927) 066-99-00</a>
+                                    </p>
+                                    <p>
+                                        <strong>Время работы</strong><br>
+                                        С понедельника по пятницу: 8:30-17:00<br>
+                                        Суббота: выходной<br>
+                                        Воскресенье: выходной
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

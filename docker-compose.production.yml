@@ -1,0 +1,62 @@
+version: '3'
+
+volumes:
+  pg_data:
+  static:
+  media:
+
+services:
+  db:
+    image: postgres:13.10
+    restart: always
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  backend:
+    image: alexpunder/garage_backend
+    restart: always
+    env_file: .env
+    volumes:
+      - static:/static
+      - media:/app/media
+    depends_on:
+      - db
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  worker:
+    image: alexpunder/garage_backend
+    restart: always
+    env_file: .env
+    volumes:
+      - static:/static
+      - media:/app/media
+    command: celery -A autoweb worker --loglevel=info
+    depends_on:
+      - db
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    links:
+      - redis
+
+  redis:
+    image: alexpunder/garage_redis
+    restart: always
+    ports:
+      - 6379:6379
+
+  nginx:
+    image: alexpunder/garage_nginx
+    restart: always
+    ports:
+      - 8000:80
+    volumes:
+      - static:/static
+      - media:/app/media
+    depends_on:
+      - backend

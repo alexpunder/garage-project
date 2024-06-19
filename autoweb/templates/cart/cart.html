@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+  <div class="page-header__container container">
+      <div class="page-header__breadcrumb">
+          <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                      <a href="{% url 'shop:homepage' %}">Главная</a>
+                      <svg class="breadcrumb-arrow" width="6px" height="9px">
+                          <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                      </svg>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+              </ol>
+          </nav>
+      </div>
+      <div class="page-header__title">
+          <h1>{{ title }}</h1>
+      </div>
+  </div>
+</div>
+
+<div class="site__body">
+  {% if cart_products %}
+  <div class="cart block">
+    <div class="container">
+      <table class="cart__table cart-table">
+        <thead class="cart-table__head">
+          <tr class="cart-table__row">
+              <th class="cart-table__column cart-table__column--image">Изображение</th>
+              <th class="cart-table__column cart-table__column--product">Наименование товара</th>
+              <th class="cart-table__column cart-table__column--quantity">Доступно</th>
+              <th class="cart-table__column cart-table__column--price">Цена, руб.</th>
+              <th class="cart-table__column cart-table__column--quantity">Количество</th>
+              <th class="cart-table__column cart-table__column--total">Итого, руб.</th>
+              <th class="cart-table__column cart-table__column--remove"></th>
+          </tr>
+        </thead>
+        <tbody class="cart-table__body">
+          {% for cart_item in cart_products %}
+          <tr class="cart-table__row">
+            <td class="cart-table__column cart-table__column--image">
+              {% with cart_item.product.images.first as first_image %}
+                {% if first_image %}
+                <div class="product-image">
+                    <a href="{{ cart_item.product.get_absolute_url }}" class="product-image__body">
+                        <img class="product-image__img" src="{{ first_image.image.url }}" alt="">
+                    </a>
+                </div>
+                {% else %}
+                <div class="product-image">
+                  <a href="{{ cart_item.product.get_absolute_url }}" class="product-image__body">
+                      <img class="product-image__img" src="{% static 'images/image-holder.webp' %}" alt="">
+                  </a>
+                </div>
+                {% endif %}
+              {% endwith %}
+            </td>
+            <td class="cart-table__column cart-table__column--product">
+              <a href="{{ cart_item.product.get_absolute_url }}" class="cart-table__product-name">{{ cart_item.product.title }}</a>
+              <ul class="cart-table__options">
+                  <li>{{ cart_item.product.subcategory }}</li>
+                  <li>{{ cart_item.product.brand }}</li>
+                  <li>{{ cart_item.product.article }}</li>
+              </ul>
+            </td>
+            <td class="count cart-table__column cart-table__column--quantity" data-title="В наличии">{{ cart_item.product.quantity }}</td>
+            <td class="cart-table__column cart-table__column--price" data-title="Цена">{{ cart_item.product.price }}</td>
+            <td class="count cart-table__column cart-table__column--quantity" data-title="Количество">
+                <div class="input-number">
+                  <div class="input-number__add"></div>
+                  <input type="number" min="1" value="{{ cart_item.quantity }}" class="form-control input-number__input" data-cart-item-id="{{ cart_item.id }}">
+                  <div class="input-number__sub"></div>
+                </div>
+                <form id="update-cart-item-form" method="POST" action="{% url 'cart:update_cart_item' %}" style="display:none;">
+                  {% csrf_token %}
+                  <input type="hidden" id="new-quantity-input" name="new_quantity">
+                  <input type="hidden" id="cart-item-id-input" name="cart_item_id">
+                </form>
+            </td>
+            <td class="cart-table__column cart-table__column--total cart-item-total-price" data-cart-item-id="{{ cart_item.id }}" data-title="Итог">{{ cart_item.total_price }}</td>
+            <td class="cart-table__column cart-table__column--remove">
+              <form method="POST" action="{% url 'cart:cart_delete' cart_item.product.pk %}" style="display: inline;"
+                hx-post="{% url 'cart:cart_delete' cart_item.product.pk %}"
+                hx-target="body"
+              >
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-light btn-sm btn-svg-icon">
+                      <svg width="12px" height="12px">
+                          <use xlink:href="/static/images/sprite.svg#cross-12"></use>
+                      </svg>
+                  </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="cart__actions">
+        <form class="cart__coupon-form">
+        </form>
+        <div class="cart__buttons">
+            <a href="{% url 'shop:all_products' %}" class="btn btn-primary cart__update-button">Продолжить покупки</a>
+        </div>
+      </div>
+    </div>
+    <div class="container pt-5">
+      <div class="row justify-content-end">
+        <div class="col-12 col-md-7 col-lg-6 col-xl-5">
+          <div class="card">
+            <div class="card-body">
+              <table class="cart__totals">
+                <tfoot class="cart__totals-footer">
+                  <tr>
+                    <th>Общий итог:</th>
+                    <td><b><span id="cart-total-price" data-cart-id="{{ cart.id }}">{{ cart.total_price }} руб.</span></b></td>
+                  </tr>
+                </tfoot>
+              </table>
+              <a class="btn btn-primary btn-xl btn-block cart__checkout-button" href="{% url 'cart:checkout' %}">Оформить заказ</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="block-empty__body">
+    <div class="block-empty__message">В корзине пока ничего нет!</div>
+    <div class="block-empty__actions">
+        <a class="btn btn-primary btn-sm" href="{% url 'shop:all_products' %}">В каталог</a>
+        <a class="btn btn-primary btn-sm" href="{% url 'shop:homepage' %}">На главную</a>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

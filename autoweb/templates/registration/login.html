@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="block">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 d-flex flex-column">
+                <div class="card flex-grow-1 mb-md-0">
+                    <div class="card-body">
+                        <h3 class="card-title">Войти в аккаунт</h3>
+                        <form method="post" action="{% url 'auth:login' %}">
+                            {% csrf_token %}
+
+                            {% bootstrap_form form %}
+                            <input type="hidden" name="next" value="{{ next }}">
+                            
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="login-remember" name="remember_me">
+                                    <label class="form-check-label" for="login-remember">Запомнить меня</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-4">Войти</button>
+                            <button class="btn btn-primary mt-4" aria-label="Войти с помощью Google-аккаунта">
+                                <a style="color: #ffffff;" href="{% provider_login_url 'google' %}?next=/">
+                                    <i class="fab fa-google" style="color: #ffffff;"></i>
+                                    &nbsp;&nbsp;&nbsp;Google
+                                </a>
+                            </button>
+                            <button class="btn btn-primary mt-4" aria-label="Войти с помощью Yandex-аккаунта">
+                                <a style="color: #ffffff;" href="{% provider_login_url 'yandex' %}?next=/">
+                                    <i class="fab fa-yandex " style="color: #ffffff;"></i>
+                                    &nbsp;&nbsp;&nbsp;Яндекс
+                                </a>
+                            </button>
+                            <a href="{% url 'auth:registration' %}" class="btn btn-primary mt-4">Зарегистрироваться</a>
+                            <a href="{% url 'auth:password_reset' %}" class="btn btn-link mt-4" style="color: var(--bs-primary);">Забыли пароль?</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

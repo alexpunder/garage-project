@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="block">
+    <div class="container">
+        <div class="row">
+            {% include "includes/account_navigation.html" %}
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Редактировать автомобиль</h5>
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="card shadow-sm p-3 mb-2 bg-body rounded">
+                                <div class="card-body">
+                                
+                                    <form method="post" action="{% url 'account:edit_auto' auto.id %}">
+                                        {% csrf_token %}
+                                        
+                                        {% for field in form %}
+                                            <div class="form-group mb-3{% if field.errors %} has-error{% endif %}">
+                                                {% bootstrap_field field form_group_class='my_custom_class' %}
+                                            </div>
+                                        {% endfor %}
+                                        
+                                        <div class="form-group mt-5 mb-0">
+                                            <button class="btn btn-primary" aria-label="Подтвердить изменения">Подтвердить изменения</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

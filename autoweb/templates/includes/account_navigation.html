@@ -1,0 +1,30 @@
+{% with request.resolver_match.view_name as view_name %}
+  <div class="col-12 col-lg-3 d-flex">
+    <div class="account-nav flex-grow-1">
+      <h4 class="account-nav__title">Навигация</h4>
+      <ul>
+        <li class="account-nav__item {% if view_name == 'account:profile' %}account-nav__item--active{% endif %}">
+          <a href="{% url 'account:profile' %}">Профиль</a>
+        </li>
+        <li class="account-nav__item {% if view_name == 'account:users_auto' %}account-nav__item--active{% endif %}">
+          <a href="{% url 'account:users_auto' %}">Автопарк</a>
+        </li>
+        <li class="account-nav__item {% if view_name == 'order:history' %}account-nav__item--active{% endif %}">
+          <a href="{% url 'order:history' %}">История заказов</a>
+        </li>
+        <li class="account-nav__item {% if view_name == 'order:details' %}account-nav__item--active{% endif %}">
+          <a href="#">Детали заказа</a>
+        </li>
+        <li class="account-nav__item {% if view_name == 'account:edit_profile' %}account-nav__item--active{% endif %}">
+          <a href="{% url 'account:edit_profile' %}">Изменить профиль</a>
+        </li>
+        <li class="account-nav__item {% if view_name == 'auth:password_change' %}account-nav__item--active{% endif %}">
+          <a href="{% url 'auth:password_change' %}">Изменить пароль</a>
+        </li>
+        <li class="account-nav__item {% if view_name == 'auth:logout' %}account-nav__item--active{% endif %}">
+          <a href="{% url 'auth:logout' %}">Выйти из аккаунта</a>
+        </li>
+      </ul>    
+    </div>
+  </div>
+{% endwith %}

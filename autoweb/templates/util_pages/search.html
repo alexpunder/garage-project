@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% load static%}
+{% load shop_extras %}
+
+{% block content %}
+
+<style>
+    .container {
+        width: 100%;
+    }
+</style>
+
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'shop:homepage' %}">Главная</a>
+                        <svg class="breadcrumb-arrow" width="6px" height="9px">
+                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                        </svg>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="page-header__title">
+            <h1>{{ title }}</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="block">
+                <div class="products-view">
+                    <div class="products-view__list products-list" data-layout="list" data-with-features="false" data-mobile-grid-columns="2">
+                        <div class="products-list__body">
+                            {% for product in page_obj %}
+                                {% include "includes/product_card.html" %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if page_obj.has_other_pages %}
+    <nav aria-label="Page navigation" class="products-view__pagination">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link page-link--with-arrow" href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}" aria-label="Предыдущая">
+                    <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true" width="8px" height="13px">
+                        <use xlink:href="/static/images/sprite.svg#arrow-rounded-left-8x13"></use>
+                    </svg>
+                </a>
+            </li>
+            {% endif %}
+            {% for i in page_obj.paginator.page_range %}
+                {% if i == page_obj.number %}
+                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                {% else %}
+                    {% if i > page_obj.number|add:"-3" and i < page_obj.number|add:"3" %}
+                        <li class="page-item">
+                            <a class="page-link" href="{% relative_url i 'page' request.GET.urlencode %}">{{ i }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link page-link--with-arrow" href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}" aria-label="Следующая">
+                        <svg class="page-link__arrow page-link__arrow--right" aria-hidden="true" width="8px" height="13px">
+                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-8x13"></use>
+                        </svg>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}

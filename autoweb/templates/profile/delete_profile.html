@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="block">
+    <div class="container">
+        <div class="row">
+            {% include "includes/account_navigation.html" %}
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Удалить профиль</h5>
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="card-body">
+                            
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <p>Вы уверены, что хотите удалить профиль?</p>
+                                    <p>Все сохранённые данные, включая историю заказов, перестанут быть доступными.</p>
+                                    {{ form }}
+                                    
+                                    <div class="form-group mt-5 mb-0">
+                                        <button type="submit" class="btn btn-primary" aria-label="Подтвердить удаление">Конечно!</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

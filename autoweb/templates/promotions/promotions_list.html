@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'shop:homepage' %}">Главная</a>
+                        <svg class="breadcrumb-arrow" width="6px" height="9px">
+                            <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                        </svg>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="page-header__title">
+            <h1>{{ title }}</h1>
+        </div>
+    </div>
+</div>
+
+<div class="site__body">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="block">
+                    <div class="posts-view">
+                        <div class="posts-view__list">
+                            {% for promotion in page_obj %}
+                            <div class="posts-list__body">
+                                <div class="posts-list__item">
+                                    <div class="post-card post-card--layout--list post-card--size--nl">
+                                        {% if promotion.image %}
+                                        <div class="post-card__image">
+                                            <a href="{% url 'shop:promotion_detail' pk=promotion.id %}">
+                                                <img src="{{ promotion.image.url }}" alt="">
+                                            </a>
+                                        </div>
+                                        {% else %}
+                                        <div class="post-card__image">
+                                            <a href="{% url 'shop:promotion_detail' pk=promotion.id %}">
+                                                <img src="{% static 'images/posts/post-1.jpg' %}" alt="">
+                                            </a>
+                                        </div>
+                                        {% endif %}
+                                        <div class="post-card__info">
+                                            <div class="post-card__name">
+                                                <a href="{% url 'shop:promotion_detail' pk=promotion.id %}">{{ promotion.title }}</a>
+                                            </div>
+                                            <div class="post-card__category">Что-то интересное</div>                                                
+                                            <div class="post-card__date">{{ promotion.pub_date }}</div>
+                                            <div class="post-card__content text-break">
+                                                {{ promotion.description|truncatechars:280 }}
+                                            </div>
+                                            <div class="post-card__read-more">
+                                                <a href="{% url 'shop:promotion_detail' pk=promotion.id %}" class="btn btn-secondary btn-sm">Узнать больше</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'includes/pagination.html' %}
+{% endblock %}

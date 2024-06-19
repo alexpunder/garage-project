@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+<style>
+    .address-card__footer a {
+        color: #000000; /* Измените этот цвет на желаемый */
+        text-decoration: none;
+    }
+    .address-card__footer a:hover {
+        color: #000000; /* Измените этот цвет на желаемый для hover state */
+        text-decoration: none;
+    }
+</style>
+<div class="block">
+    <div class="container">
+        <div class="row">
+            {% include "includes/account_navigation.html" %}
+            <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                <div class="addresses-list">
+                    <a href="{% url 'account:add_auto' %}" class="addresses-list__item addresses-list__item--new">
+                        <div class="addresses-list__plus"></div>
+                        <div class="btn btn-secondary btn-sm">Новый автомобиль</div>
+                    </a>
+                    {% for car in cars %}
+                    <div class="addresses-list__divider"></div>
+                    <div class="addresses-list__item card address-card">
+                        <div class="address-card__body">
+                            <div class="address-card__name">{{ car.mark }} {% if car.model %}{{ car.model }}{% endif %}</div>
+                            <div class="address-card__row">
+                                <div class="address-card__row-title">VIN-код</div>
+                                <div class="address-card__row-content">{% if car.vin_code %}{{ car.vin_code }}{% else %}Не указан{% endif %}</div>
+                            </div>
+                            <div class="address-card__footer">
+                                <a href="{% url 'account:edit_auto' car.id %}">Редактировать</a>&nbsp;&nbsp;
+                                <a href="{% url 'account:delete_auto' car.id %}">Удалить</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
