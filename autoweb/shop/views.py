@@ -95,6 +95,7 @@ class HomepageView(ListView):
     def get_queryset(self):
         brands = Brand.objects.filter(
             is_published=True,
+            is_on_main=True,
         ).order_by(
             'title'
         )[:BRANDS_ON_INDEX_PAGE]

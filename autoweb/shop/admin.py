@@ -63,6 +63,9 @@ class SubcategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
+    list_filter = (
+        'is_on_main',
+    )
     prepopulated_fields = {'slug_brand': ('title',)}
 
 

@@ -200,6 +200,10 @@ class Subcategory(BaseModel):
 
 
 class Brand(BaseModel):
+    is_on_main = models.BooleanField(
+        'Выводить ли на главной?',
+        default=False,
+    )
     description = models.TextField(
         verbose_name='Описание',
         blank=True
