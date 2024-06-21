@@ -654,9 +654,10 @@
                                         </li>
                                         <li class="menu__item">
                                             <div class="menu__item-submenu-offset"></div>
-                                            <a class="menu__item-link" href="{% url 'auth:logout' %}" aria-label="Выйти из аккаунта">
-                                                Выйти
-                                            </a>
+                                            <form method="post" action="{% url 'auth:logout' %}">
+                                                {% csrf_token %}
+                                                <button class="menu__item-link" type="submit">Выйти</button>
+                                            </form>
                                         </li>
                                     </ul>
                                 </div>
@@ -811,9 +812,12 @@
                                         <li><a href="{% url 'auth:password_change'%}">Изменить пароль</a></li>
                                     </ul>
                                     <div class="account-menu__divider"></div>
-                                    <ul class="account-menu__links">
-                                        <li><a href="{% url 'auth:logout' %}">Выйти</a></li>
-                                    </ul>
+                                    <form class="account-menu__form" method="post" action="{% url 'auth:logout' %}">
+                                        {% csrf_token %}
+                                        <div class="form-group account-menu__form-button">
+                                            <button class="btn btn-primary" type="submit">Выйти из профиля</button>
+                                        </div>
+                                    </form>
                                 {% endif %}
                                 </div>
                             </div>

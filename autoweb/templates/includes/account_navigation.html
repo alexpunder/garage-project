@@ -21,10 +21,11 @@
         <li class="account-nav__item {% if view_name == 'auth:password_change' %}account-nav__item--active{% endif %}">
           <a href="{% url 'auth:password_change' %}">Изменить пароль</a>
         </li>
-        <li class="account-nav__item {% if view_name == 'auth:logout' %}account-nav__item--active{% endif %}">
-          <a href="{% url 'auth:logout' %}">Выйти из аккаунта</a>
-        </li>
-      </ul>    
+        <form class="account-nav__item" method="post" action="{% url 'auth:logout' %}">
+          {% csrf_token %}
+          <button class="btn btn-primary btn-sm mx-3" type="submit">Выйти из профиля</button>
+        </form>
+      </ul>
     </div>
   </div>
 {% endwith %}
