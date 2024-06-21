@@ -22,7 +22,6 @@ class CustomUserUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class CustomUserDeleteView(LoginRequiredMixin, DeleteView):
-    form_class = CustomUserEditForm
     template_name = 'profile/delete_profile.html'
     context_object_name = 'cars'
     success_url = reverse_lazy('shop:homepage')

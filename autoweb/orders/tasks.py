@@ -1,9 +1,16 @@
-from django.core.mail import EmailMultiAlternatives
-from telegram import Bot
+import warnings
 
+from django.core.mail import EmailMultiAlternatives
 from celery import shared_task
 
 from autoweb.settings import TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
+
+
+with warnings.catch_warnings():
+    warnings.filterwarnings(
+        'ignore', message='.*python-telegram-bot is using upstream urllib3.*'
+    )
+    from telegram import Bot
 
 
 bot = Bot(token=TELEGRAM_TOKEN)

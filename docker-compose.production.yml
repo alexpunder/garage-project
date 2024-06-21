@@ -14,7 +14,7 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   backend:
-    image: alexpunder/garage_backend
+    image: alexpunder/garage_backend_v2
     restart: always
     env_file: .env
     volumes:
@@ -28,7 +28,7 @@ services:
       - REDIS_PORT=6379
 
   worker:
-    image: alexpunder/garage_backend
+    image: alexpunder/garage_backend_v2
     restart: always
     env_file: .env
     volumes:
