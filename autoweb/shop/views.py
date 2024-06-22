@@ -4,7 +4,7 @@ from django.views.generic import ListView
 
 from autoweb.constants import (BRANDS_ON_INDEX_PAGE, PRODUCTS_ON_FILTER_PAGE,
                                PRODUCTS_ON_INDEX_PAGE, PRODUCTS_ON_PAGE,
-                               PROMOTIONS_ON_PAGE, TITELES_DATA)
+                               PROMOTIONS_ON_PAGE, BREADCRUMB_DATA)
 from shop.models import Brand, Category, Product, Promotions
 
 from .filters import ProductFilter, SearchFilter
@@ -26,8 +26,10 @@ def filter_products_page(request):
 
     context = {
         'filter': product_filter,
-        'title': TITELES_DATA['filter_products_page'],
-        'filters_count': filters_count
+        'filters_count': filters_count,
+        'title': 'Общий каталог',
+        'description': 'Страница всех товаров с фильтром.',
+        'breadcrumb': BREADCRUMB_DATA.get('filter_products_page')
     }
 
     if product_filter.qs:
@@ -56,7 +58,9 @@ def search_view(request):
 
     context = {
         'filter': product_search,
-        'title': TITELES_DATA['search_view']
+        'title': 'Поиск товара',
+        'description': 'Страница с результатами поиска.',
+        'breadcrumb': BREADCRUMB_DATA.get('search_view')
     }
 
     if check_filtered_products(request, product_search):
@@ -102,6 +106,16 @@ class HomepageView(ListView):
         self.extra_context = {'brands': brands}
         return super().get_queryset()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Автозапчасти ГАРАЖ'
+        context['description'] = (
+            'Магазин автозапчастей ГАРАЖ в Волжском - официальный партнёр '
+            'фирмы Motul и точка продаж всех необходимых комплектующих для '
+            'Вашего автомобиля.'
+        )
+        return context
+
 
 class PromotionsView(ListView):
     """
@@ -118,7 +132,11 @@ class PromotionsView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = TITELES_DATA['PromotionsView']
+        context['title'] = 'Акции'
+        context['description'] = (
+            'Страница со всеми акциями нашего магазина.'
+        )
+        context['breadcrumb'] = BREADCRUMB_DATA.get('PromotionsView')
         return context
 
 
@@ -130,7 +148,9 @@ def categories_list_view(request):
     categories_list = Category.objects.order_by('title')
     context = {
         'categories_list': categories_list,
-        'title': TITELES_DATA['categories_list_view']
+        'title': 'Категории товаров',
+        'description': 'Страница со списком всех категорий товаров.',
+        'breadcrumb': BREADCRUMB_DATA.get('categories_list_view')
     }
     return render(request, template, context)
 
@@ -146,7 +166,9 @@ def subcategory_list_view(request, category_slug):
     context = {
         'category': category,
         'subcategories': subcategories,
-        'title': TITELES_DATA['subcategory_list_view']
+        'title': 'Подкатегории товаров',
+        'description': 'Страница со списком всех подкатегорий товаров.',
+        'breadcrumb': BREADCRUMB_DATA.get('subcategory_list_view')
     }
     return render(request, template, context)
 
@@ -165,7 +187,9 @@ def product_list_view(request, category_slug, subcategory_slug):
     context = {
         'page_obj': page_obj,
         'category_slug': category_slug,
-        'title': TITELES_DATA['product_list_view']
+        'title': 'Товары',
+        'description': 'Страница со списком выбранных товаров.',
+        'breadcrumb': BREADCRUMB_DATA.get('product_list_view')
     }
     return render(request, 'product/product_list.html', context)
 
@@ -178,7 +202,9 @@ def brands_list_view(request):
     brands_list = Brand.objects.order_by('title')
     context = {
         'brands_list': brands_list,
-        'title': TITELES_DATA['brands_list_view']
+        'title': 'Бренды',
+        'description': 'Страница со списком брендов.',
+        'breadcrumb': BREADCRUMB_DATA.get('brands_list_view')
     }
     return render(request, template, context)
 
@@ -206,7 +232,9 @@ def brands_detail_view(request, slug_brand):
     )
     context = {
         'page_obj': page_obj,
-        'title': TITELES_DATA['brands_detail_view']
+        'title': 'Товары бренда',
+        'description': 'Страница со списком всех товаров бренда.',
+        'breadcrumb': BREADCRUMB_DATA.get('brands_detail_view')
     }
     return render(request, template_name, context)
 
@@ -219,6 +247,9 @@ def promotions_detail_view(request, pk):
     promotion = get_object_or_404(Promotions, pk=pk)
     context = {
         'promotion': promotion,
+        'title': promotion.title,
+        'description': promotion.description[:40],
+        'breadcrumb': BREADCRUMB_DATA.get('promotions_detail_view')
     }
     return render(request, template_name, context)
 
@@ -238,9 +269,17 @@ def product_detail_view(request, pk, category_slug, subcategory_slug):
     context = {
         'product': product,
         'images': images,
-        'title': TITELES_DATA['product_detail_view'],
+        'title': (
+            f'{product.title} {product.article} в магазине '
+            'автозапчастей ГАРАЖ'
+        ),
+        'description': (
+            f'Купить {product.title} {product.article} '
+            'в магазине автозапчастей ГАРАЖ'
+        ),
         'category_slug': category_slug,
         'subcategory_slug': subcategory_slug,
+        'breadcrumb': BREADCRUMB_DATA.get('product_detail_view')
     }
 
     if product.specification and product.cross_list:

@@ -40,12 +40,12 @@
                         <use xlink:href="/static/images/sprite.svg#arrow-rounded-right-6x9"></use>
                     </svg>
                   </li>
-                  <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+                  <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb }}</li>
               </ol>
           </nav>
       </div>
       <div class="page-header__title">
-          <h1>{{ title }}</h1>
+          <h1>{{ breadcrumb }}</h1>
       </div>
   </div>
 </div>
@@ -181,7 +181,6 @@
         <div class="product-tabs__content">
           <div class="product-tabs__pane" id="tab-specification">
             <div class="spec">
-              <h3 class="spec__header">Основные характеристики</h3>
               <div class="spec__section">
                 <h4 class="spec__section-title"></h4>
                 {% for key, value in specification_dict.items %}
@@ -199,7 +198,6 @@
           </div>
           <div class="product-tabs__pane product-tabs__pane--active" id="tab-original-code">
             <div class="typography">
-              <h3>Применяемость</h3>
               {% for text_cross in text_cross_list %}
                 {{ text_cross }}</br>
               {% endfor %}

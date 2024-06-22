@@ -61,7 +61,9 @@ def order_details(request, pk):
     context = {
         'order': order,
         'order_items': order_items,
-        'order_status_check': ORDER_STATUS_CHECK
+        'order_status_check': ORDER_STATUS_CHECK,
+        'title': f'Заказа номер #{order.id}',
+        'description': 'Страница с заказом.'
     }
     return render(request, template, context)
 
@@ -73,6 +75,8 @@ def orders_history(request):
         user=request.user
     ).order_by('-id')
     context = {
-        'orders_list': orders_list
+        'orders_list': orders_list,
+        'title': 'История заказов',
+        'description': 'Страница с историей заказов.'
     }
     return render(request, template, context)

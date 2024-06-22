@@ -8,7 +8,7 @@ PRODUCTS_ON_PAGE = 10  # количество товаров на страниц
 PROMOTIONS_ON_PAGE = 3  # количество акций на странице
 BRANDS_ON_INDEX_PAGE = 10
 
-TITELES_DATA = {
+BREADCRUMB_DATA = {
     'filter_products_page': 'Страница товаров',
     'search_view': 'Результаты поиска',
     'categories_list_view': 'Список категорий',

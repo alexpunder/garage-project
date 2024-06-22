@@ -5,10 +5,10 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from autoweb.constants import TITELES_DATA
 from orders.services import OrderServices
 from shop.models import Product
 from users.forms import CustomUserEditFormCheckout
+from autoweb.constants import BREADCRUMB_DATA
 
 from .models import Cart, CartItem
 from .services import CartServices
@@ -27,7 +27,9 @@ def cart(request):
     context = {
         'cart_products': CartItem.objects.filter(cart=cart),
         'cart': cart,
-        'title': TITELES_DATA['cart']
+        'title': 'Корзина товаров',
+        'description': 'Страница с корзиной товаров пользователя.',
+        'breadcrumb': BREADCRUMB_DATA.get('cart')
     }
 
     return render(request, template, context)
@@ -133,7 +135,9 @@ def checkout(request):
         'cart_products': cart_products,
         'user': request.user,
         'form': form,
-        'title': TITELES_DATA['checkout']
+        'title': 'Оформление заказа',
+        'description': 'Страница с оформлением заказа.',
+        'breadcrumb': BREADCRUMB_DATA.get('checkout')
     }
     return render(request, template, context)
 
@@ -182,7 +186,9 @@ def thank_you_page(request, pk):
         if OrderServices.confirm_order(order, order_items):
             context = {
                 'order': order,
-                'order_items': order_items
+                'order_items': order_items,
+                'title': 'Благодарим за заказ!',
+                'description': 'Страница с оформленным заказом.'
             }
             return render(request, template, context)
         else:
@@ -195,6 +201,8 @@ def thank_you_page(request, pk):
     else:
         context = {
             'order': order,
-            'order_items': order_items
+            'order_items': order_items,
+            'title': 'Заказ оформлен',
+            'description': 'Страница с оформленным заказом.'
         }
         return render(request, template, context)

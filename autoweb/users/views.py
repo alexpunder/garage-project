@@ -20,6 +20,12 @@ class CustomUserUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('account:profile')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Редактировать профиль'
+        context['description'] = 'Страница редактирования профиля.'
+        return context
+
 
 class CustomUserDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'profile/delete_profile.html'
@@ -28,6 +34,12 @@ class CustomUserDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Удалить профиль'
+        context['description'] = 'Страница удаления профиля.'
+        return context
 
 
 class AutoListView(LoginRequiredMixin, ListView):
@@ -42,6 +54,12 @@ class AutoListView(LoginRequiredMixin, ListView):
             owner=self.request.user
         )
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Автомобили'
+        context['description'] = 'Страница автомобилей пользователя.'
+        return context
+
 
 class AddAutoView(LoginRequiredMixin, CreateView):
     model = Auto
@@ -54,6 +72,12 @@ class AddAutoView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('account:users_auto')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Добавить автомобиль'
+        context['description'] = 'Страница добавления автомобиля.'
+        return context
 
 
 class UpdateAutoView(LoginRequiredMixin, UpdateView):
@@ -69,6 +93,12 @@ class UpdateAutoView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('account:users_auto')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Редактировать автомобиль'
+        context['description'] = 'Страница редактирования автомобиля.'
+        return context
+
 
 class AutoDeleteView(LoginRequiredMixin, DeleteView):
     model = Auto
@@ -82,6 +112,12 @@ class AutoDeleteView(LoginRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse('account:users_auto')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Удалить автомобиль'
+        context['description'] = 'Страница удаления автомобиля.'
+        return context
+
 
 @login_required
 def profile(request):
@@ -90,6 +126,8 @@ def profile(request):
     cars = user.cars.all()
     context = {
         'user': user,
-        'cars': cars
+        'cars': cars,
+        'title': 'Профиль',
+        'description': 'Страница профиля пользователя.'
     }
     return render(request, template_name, context)

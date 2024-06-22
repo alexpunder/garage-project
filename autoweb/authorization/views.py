@@ -24,9 +24,21 @@ class CustomUserCreateView(CreateView):
         )
         return valid
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Регистрация нового пользователя'
+        context['description'] = 'Страница регистрации нового пользователя.'
+        return context
+
 
 class CustomAuthView(LoginView):
     form_class = CustomAuthForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Войти в профиль'
+        context['description'] = 'Страница входа в профиль.'
+        return context
 
 
 class CustomePasswordChangeView(PasswordChangeView):

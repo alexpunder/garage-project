@@ -49,8 +49,7 @@ class Product(BaseModel):
     )
     article = models.CharField(
         'Артикул',
-        max_length=255,
-        unique=True,
+        max_length=255
     )
     quantity = models.PositiveSmallIntegerField(
         'Количество товара на складе',
