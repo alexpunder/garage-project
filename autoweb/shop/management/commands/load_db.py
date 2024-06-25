@@ -18,7 +18,8 @@ class Command(BaseCommand):
             category = Category(
                 id=row['id'],
                 title=row['title'],
-                slug=row['slug']
+                slug=row['slug'],
+                image=row['image']
             )
             category.save()
 
@@ -31,7 +32,8 @@ class Command(BaseCommand):
                 id=row['id'],
                 title=row['title'],
                 category=category_instance,
-                slug=row['slug']
+                slug=row['slug'],
+                image=row['image']
             )
             subcategory.save()
 
