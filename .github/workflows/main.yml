@@ -73,18 +73,6 @@ jobs:
       - build_redis_and_push_to_docker_hub
     if: github.ref == 'refs/heads/main'
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
-    - name: Copy docker-compose.yml via ssh
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USER }}
-        key: ${{ secrets.SSH_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: "docker-compose.production.yml"
-        target: "garage"
-        overwrite: true
     - name: Run command on remote server
       uses: D3rHase/ssh-command-action@v0.2.2
       with:
