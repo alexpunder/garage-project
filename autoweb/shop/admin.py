@@ -63,6 +63,12 @@ class SubcategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
+    list_display = (
+        'title', 'is_on_main',
+    )
+    list_editable = (
+        'is_on_main',
+    )
     list_filter = (
         'is_on_main',
     )
