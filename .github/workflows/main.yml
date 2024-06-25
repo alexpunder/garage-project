@@ -6,7 +6,7 @@ on:
 jobs:
 
   build_and_push_to_docker_hub:
-    name: Push docker image to Dockerhub
+    name: Push garage_v2 docker image to Dockerhub
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
@@ -46,7 +46,7 @@ jobs:
           tags: alexpunder/garage_nginx:latest
 
   build_redis_and_push_to_docker_hub:
-    name: Push nginx Docker image to DockerHub
+    name: Push redis Docker image to DockerHub
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
