@@ -83,13 +83,13 @@ jobs:
         password: ${{secrets.SSH_PASSWORD}}
         script: |
           cd garage
-          sudo docker compose -f docker-compose.production.yml pull
-          sudo docker compose -f docker-compose.production.yml down
-          sudo docker compose -f docker-compose.production.yml up -d
-          sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
-          sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/staticfiles/. /static/
-          sudo docker compose -f docker-compose.production.yml exec backend python manage.py makemigrations
-          sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+          sudo docker compose -f docker-compose.yml pull
+          sudo docker compose -f docker-compose.yml down
+          sudo docker compose -f docker-compose.yml up -d
+          sudo docker compose -f docker-compose.yml exec backend python manage.py collectstatic
+          sudo docker compose -f docker-compose.yml exec backend cp -r /app/staticfiles/. /static/
+          sudo docker compose -f docker-compose.yml exec backend python manage.py makemigrations
+          sudo docker compose -f docker-compose.yml exec backend python manage.py migrate
   send_message:
     runs-on: ubuntu-latest
     needs: deploy
