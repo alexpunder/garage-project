@@ -148,10 +148,6 @@ dmypy.json
 # папки со статикой и медиа
 media/
 
-# миграции
-
-migrations/
-
 # .csv-файлы
 
 products_data/
