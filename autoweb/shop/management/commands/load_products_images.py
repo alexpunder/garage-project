@@ -26,7 +26,7 @@ class Command(BaseCommand):
                         'media', row['image']
                     )
                     if not os.path.exists(image_path):
-                        print(f'Файл {image_path} не найден, пропускаем.')
+                        continue
 
                     else:
                         product_images = ProductImage(

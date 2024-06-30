@@ -43,6 +43,7 @@ class Command(BaseCommand):
             if check_uniq:
                 continue
             brand = Brand(
+                id=row['id'],
                 title=row['title'],
                 slug_brand=row['slug_brand'],
                 producing_country=row['producing_country'],

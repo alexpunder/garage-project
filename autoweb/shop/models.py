@@ -32,6 +32,12 @@ class BaseModel(models.Model):
 
 
 class Product(BaseModel):
+    id = models.BigIntegerField(
+        'Идентификатор',
+        unique=True,
+        primary_key=True,
+        help_text='Уникальный идентификатор товара из Автоинтеллекта.'
+    )
     description = models.TextField(
         'Описание',
         default='',
