@@ -10,8 +10,12 @@ handler500 = 'pages.views.server_error'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.socialaccount.urls')),
-    path('accounts/', include('allauth.socialaccount.providers.yandex.urls')),
-    path('accounts/', include('allauth.socialaccount.providers.google.urls')),
+    path(
+        'accounts/', include('allauth.socialaccount.providers.google.urls')
+    ),
+    path(
+        'accounts/', include('allauth.socialaccount.providers.yandex.urls')
+    ),
     path('auth/', include('authorization.urls')),
     path('profile/', include('users.urls')),
     path('cart/', include('cart.urls')),

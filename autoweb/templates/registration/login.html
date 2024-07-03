@@ -23,19 +23,19 @@
                                     <label class="form-check-label" for="login-remember">Запомнить меня</label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4">Войти</button>
-                            <button class="btn btn-primary mt-4" aria-label="Войти с помощью Google-аккаунта">
-                                <a style="color: #ffffff;" href="{% provider_login_url 'google' %}?next=/">
-                                    <i class="fab fa-google" style="color: #ffffff;"></i>
-                                    &nbsp;&nbsp;&nbsp;Google
-                                </a>
-                            </button>
                             <button class="btn btn-primary mt-4" aria-label="Войти с помощью Yandex-аккаунта">
                                 <a style="color: #ffffff;" href="{% provider_login_url 'yandex' %}?next=/">
                                     <i class="fab fa-yandex " style="color: #ffffff;"></i>
                                     &nbsp;&nbsp;&nbsp;Яндекс
                                 </a>
                             </button>
+                            <button class="btn btn-primary mt-4" aria-label="Войти с помощью Google-аккаунта">
+                                <a style="color: #ffffff;" href="{% provider_login_url 'google' %}?next=/">
+                                    <i class="fab fa-google " style="color: #ffffff;"></i>
+                                    &nbsp;&nbsp;&nbsp;Google
+                                </a>
+                            </button>
+                            <button type="submit" class="btn btn-primary mt-4">Войти</button>
                             <a href="{% url 'auth:registration' %}" class="btn btn-primary mt-4">Зарегистрироваться</a>
                             <a href="{% url 'auth:password_reset' %}" class="btn btn-link mt-4" style="color: var(--bs-primary);">Забыли пароль?</a>
                         </form>

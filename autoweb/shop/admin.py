@@ -1,10 +1,13 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from django.utils.text import Truncator
 
 from .models import (Brand, Category, CSVLoaderDB, Product, ProductImage,
-                     Promotions, Subcategory)
+                     Promotions, Subcategory, NewProductCSVLoader)
 
 admin.site.empty_value_display = 'Не задано'
+
+admin.site.unregister(Group)
 
 
 class ProductImageInline(admin.TabularInline):
@@ -101,4 +104,9 @@ admin.site.register(ProductImage)
 
 @admin.register(CSVLoaderDB)
 class CSVLoaderDBAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(NewProductCSVLoader)
+class NewProductCSVLoaderAdmin(admin.ModelAdmin):
     pass

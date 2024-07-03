@@ -1,10 +1,5 @@
-from csv import DictReader
-from io import TextIOWrapper
-
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.text import slugify
 from PIL import Image
@@ -296,33 +291,18 @@ class CSVLoaderDB(models.Model):
         verbose_name_plural = 'Загрузка прайсов'
 
     def __str__(self):
-        return 'Файл обновления цены/количества'
+        return 'Файл обновления цены/количества.'
 
 
-@receiver(post_save, sender=CSVLoaderDB)
-def process_csv_file_after_save(sender, instance, **kwargs):
-    handle_uploaded_file(instance.file)
+class NewProductCSVLoader(models.Model):
+    file = models.FileField(
+        upload_to='csv_products_files/',
+        validators=[validate_csv_file]
+    )
 
+    class Meta:
+        verbose_name = 'Загрузка новых товаров'
+        verbose_name_plural = 'Загрузка новых товаров'
 
-def handle_uploaded_file(csv_loader_instance):
-    if csv_loader_instance.file:
-        with csv_loader_instance.file.open(mode='r') as file:
-            text_wrapper = TextIOWrapper(file, encoding='utf-8-sig')
-            reader = DictReader(text_wrapper, delimiter=';')
-            for row in reader:
-
-                if not Product.objects.filter(id=row['id']).exists():
-                    continue
-
-                if row.get('quantity'):
-                    quantity_int = int((row['quantity'].split(','))[0])
-                    row['quantity'] = quantity_int
-                if row.get('price'):
-                    price_str = str(row['price']).split(',')
-                    price = int(price_str[0].replace(' ', ''))
-                    row['price'] = price
-
-                product = Product.objects.get(id=row['id'])
-                product.quantity = row['quantity']
-                product.price = row['price']
-                product.save()
+    def __str__(self):
+        return 'Файл добавления товаров в БД.'

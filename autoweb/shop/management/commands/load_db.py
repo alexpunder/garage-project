@@ -57,13 +57,6 @@ class Command(BaseCommand):
             if check_uniq:
                 continue
 
-            if row['price']:
-                price_str = str(row['price']).split(',')
-                price = int(price_str[0].replace('\xa0', ''))
-                row['price'] = price
-            if row['quantity']:
-                quantity_int = int(row['quantity'].split('.')[0])
-                row['quantity'] = quantity_int
             category_instance = Category.objects.get(
                 id=row['category']
             )
@@ -78,11 +71,11 @@ class Command(BaseCommand):
                 id=row['id'],
                 title=row['title'],
                 article=row['article'],
-                quantity=row['quantity'],
+                quantity=0,
                 category=category_instance,
                 subcategory=subcategory_instance,
                 brand=brand_instance,
-                price=row['price'],
+                price=0,
                 specification=row['specification'],
                 cross_list=row['cross_list']
             )

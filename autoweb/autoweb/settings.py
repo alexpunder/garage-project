@@ -96,8 +96,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.yandex',
+    'allauth.socialaccount.providers.google',
 
     'authorization.apps.AuthorizationConfig',
     'pages.apps.PagesConfig',
@@ -176,7 +176,7 @@ PHONENUMBER_DEFAULT_REGION = 'RU'
 PHONENUMBER_DEFAULT_FORMAT = 'NATIONAL'
 
 
-LOGIN_URL = '/auth/login/'
+LOGIN_URL = 'auth:login'
 LOGIN_REDIRECT_URL = '/'
 
 
@@ -226,19 +226,6 @@ RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY')
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'APPS': [
-            {
-                'client_id': os.getenv('SOCIALACCOUNT_GOOGLE_CLIENT_ID'),
-                'secret': os.getenv('SOCIALACCOUNT_GOOGLE_SECRET'),
-                'key': os.getenv('SOCIALACCOUNT_GOOGLE_KEY')
-            },
-        ],
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-    },
     'yandex': {
         'APPS': [
             {
@@ -252,7 +239,20 @@ SOCIALACCOUNT_PROVIDERS = {
             'login:info',
             'login:email'
         ]
-    }
+    },
+    'google': {
+        'APPS': [
+            {
+                'client_id': os.getenv('SOCIALACCOUNT_GOOGLE_CLIENT_ID'),
+                'secret': os.getenv('SOCIALACCOUNT_GOOGLE_SECRET'),
+                'key': os.getenv('SOCIALACCOUNT_GOOGLE_KEY')
+            },
+        ],
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+    },
 }
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
