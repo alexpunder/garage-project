@@ -49,7 +49,8 @@ pytest-django==4.8.0
 pytest-lazy-fixture==0.6.3
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.0
-python-telegram-bot==13.7
+# python-telegram-bot==13.7
+python-telegram-bot==21.3
 python3-openid==3.2.0
 pytz==2024.1
 redis==5.0.6
@@ -63,6 +64,7 @@ tomli==2.0.1
 tornado==6.4.1
 tzdata==2024.1
 tzlocal==5.2
-urllib3==1.26.15
+# urllib3==1.26.15
+urllib3==2.2.2
 vine==5.1.0
 wcwidth==0.2.13

@@ -1,6 +1,7 @@
 from django.db import transaction
 from django.db.models import F
 from django.shortcuts import get_object_or_404
+from asgiref.sync import async_to_sync
 
 from .models import Order, OrderItem
 from shop.models import Product
@@ -62,7 +63,7 @@ class OrderServices:
             f'Заказчик: {order.user.first_name} {order.user.last_name}.\n'
             f'Тел.: {order.user.phone_number}'
         )
-        send_telegram_message.delay(message)
+        async_to_sync(send_telegram_message)(message)
         return True, order.id
 
     @staticmethod
@@ -86,7 +87,7 @@ class OrderServices:
             f'Клиент ОТМЕНИЛ заказ: {order.user.get_full_name()}.\n'
             f'Номер заказа на сайте: #{order.id}.'
         )
-        send_telegram_message.delay(message)
+        async_to_sync(send_telegram_message)(message)
 
     @staticmethod
     def get_order_and_items(user, pk, need_items_too=True):

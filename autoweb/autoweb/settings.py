@@ -12,6 +12,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG') == 'True'
 
+MAIN_BOT_TOKEN = os.getenv('MAIN_BOT_TOKEN')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('USER_TOKEN_ID')
 
